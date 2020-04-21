@@ -4,7 +4,11 @@
     <b-container class="bv-example-row">
       <b-row>
         <b-col sm="6" offset="3">
-          <DataBox />
+          <DataBox 
+          v-if="info.length"
+          :inputdata="info[index]"
+          :next="next"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -19,6 +23,29 @@ export default {
   components: {
     Header,
     DataBox
+  },
+  data() {
+    return {
+      info: [],
+      index: 0
+    };
+  },
+  methods: {
+    next() {
+      this.index++
+    }
+
+  },
+  mounted: function() {
+    fetch("http://localhost:3000/api/group/media", {
+      method: "get"
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(jsonData => {
+        this.info = jsonData;
+      });
   }
 };
 </script>
