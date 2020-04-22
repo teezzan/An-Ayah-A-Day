@@ -1,11 +1,12 @@
 <template>
   <div class="data-box-container">
     <b-jumbotron>
-      <template v-slot:lead>{{ inputdata.filename }}</template>
+      <template v-slot:lead>{{ inputdata.text }}</template>
 
       <hr class="my-4" />
       <b-jumbotron class="internal">
-        <p v-for="[m_info, index] in inputdata.contentType" :key="index">{{ m_info }}</p>
+        <p v-for="m_info in inputdata.audioSecondary" :key="m_info">{{ m_info }}</p>
+        <!-- <p>  {{ inputdata.audioSecondary[1] }} </p> -->
       </b-jumbotron >
 
       <b-button @click="next" variant="success" href="#">Next</b-button>

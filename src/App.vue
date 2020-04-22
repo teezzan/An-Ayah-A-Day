@@ -5,8 +5,8 @@
       <b-row>
         <b-col sm="6" offset="3">
           <DataBox 
-          v-if="info.length"
-          :inputdata="info[index]"
+          v-if="info.data"
+          :inputdata="info.data.ayahs[index]"
           :next="next"
           />
         </b-col>
@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      info: [],
+      info: {},
       index: 0
     };
   },
@@ -37,7 +37,7 @@ export default {
 
   },
   mounted: function() {
-    fetch("http://localhost:3000/api/group/media", {
+    fetch("http://localhost:3000/api/users", {
       method: "get"
     })
       .then(response => {
