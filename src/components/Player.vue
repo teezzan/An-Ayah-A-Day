@@ -4,6 +4,7 @@
         <source :src="audioUrl"  type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+    <br>
     <b-button variant="primary" @click="pause">Pause/Play</b-button>
   </div>
 </template>
@@ -11,7 +12,8 @@
 <script>
 export default {
     props: {
-        audioUrl: String
+        audioUrl: String,
+        audioUrl1: String
   },
   methods: {
       pause(){

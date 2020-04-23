@@ -6,13 +6,18 @@
         <b-col sm="6" offset="3">
           <DataBox 
           v-if="info.data"
-          :inputdata="info.data.ayahs[index]"
+          :inputdataEn="info.data[0].ayahs[index]"
+          :inputdataAr="info.data[1].ayahs[index]"
+          :numberOfAyahs="info.data[0].numberOfAyahs"
           :next="next"
+          :randomize="randomize"
           />
         </b-col>
       </b-row>
       <Player 
+        v-if="info.data"
         :audioUrl="this.url[index]"
+        :audioUrl1="info.data[1].ayahs[index].audio"
       />
     </b-container>
   </div>
@@ -42,19 +47,28 @@ export default {
   methods: {
     next() {
       this.index++
+    },
+    randomize(){
+      var rand=5;
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${rand}/editions/en.yusufali,ar.alafasy`;
+      this.index=0;
+      console.log(rand,fetchurl);
+    },
+    getdata(fetchurl){
+      fetch(fetchurl, {
+        method: "get"
+      })
+        .then(response => {
+          return response.json();
+        })
+        .then(jsonData => {
+          this.info = jsonData;
+        });
     }
 
   },
   mounted: function() {
-    fetch("http://localhost:3000/api/users", {
-      method: "get"
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(jsonData => {
-        this.info = jsonData;
-      });
+    this.getdata("http://localhost:3000/api/users");
   }
 };
 </script>
