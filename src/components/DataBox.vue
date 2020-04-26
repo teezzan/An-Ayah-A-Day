@@ -1,18 +1,47 @@
 <template>
-  <div class="data-box-container">
-    <b-jumbotron>
-      <template v-slot:lead>{{ inputdataAr.text }}</template>
-
+  <!-- <div class="data-box-container">
+    <b-jumbotron class="uinternal">
+      <template  v-slot:lead>{{ inputdataAr.text }}</template>
+        
       <hr class="my-4" />
       <b-jumbotron class="internal">
-        <!-- <p v-for="m_info in inputdata.audioSecondary" :key="m_info">{{ m_info }}</p> -->
-        <!-- <p>  {{ inputdata.audioSecondary[1] }} </p> -->
         <template v-slot:lead>{{ inputdataEn.text }}</template>
       </b-jumbotron >
 
       <b-button @click="next" variant="success" href="#">Next</b-button>
       <b-button @click="randomize" variant="primary" href="#">Random</b-button>
     </b-jumbotron>
+  </div>-->
+  <!-- ۞ -->
+
+  <div  id="bgb" class="p-5" >
+
+    <b-row align-v="center" class="p10 ">
+      <b-col md="6" class="mytext">
+        <b-card id="ar" align="right">
+          <b-card-text id="arabic"  >{{ inputdataAr.text }}</b-card-text>
+        </b-card>
+      </b-col>
+      <hr class="my-4" />
+      <b-col md="6" class="mytext">
+        <b-card id="en" align="left">
+          <b-card-text id="english" v-bind:style="{fontSize: fonty(inputdataEn.text)}">{{ inputdataEn.text }}</b-card-text>
+        </b-card>
+      </b-col>
+    </b-row>
+
+    <b-row align-h="center" >
+
+      <b-col cols="6" align-self="end" >
+         <b-button @click="next" variant="primary">Next</b-button>
+        <b-button @click="randomize" :variant="[change==1 ? 'primary' :'info']">
+          <span class="change" v-show="change==1 ? true :false">
+            <b-spinner small></b-spinner>Loading
+          </span>
+          <span v-show="change==0">Random</span>
+        </b-button>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -23,22 +52,67 @@ export default {
     inputdataEn: Object,
     next: Function,
     randomize: Function,
-    numberOfAyahs: Number
+    numberOfAyahs: Number,
+    change: Number
   },
   computed: {
     more_info() {
       console.log("stuff could happen here");
       return "info";
+    },
+    
+  },
+  methods: {
+    fonty(inp){
+      if(inp.length < 250){
+        return `21px`
+      }
+      return `17px`
+      // 
+
     }
   }
 };
 </script>
 
 <style scoped>
-.internal {
-    margin-bottom: 10px;
+#en, #ar {
+  margin-bottom: 10px;
+  background-color: rgba(88, 74, 43, 0);
 }
+.internal:hover {
+  background-color: rgba(173, 179, 163, 0.7);
+  border-radius: 5px;
+}
+.uinternal:hover {
+  background-color: rgba(170, 212, 169, 0.2);
+  border-radius: 5px;
+}
+#arabic, #english {
+  font-size: 21px;
+  /* font-Weight: bold; */
+  color: rgb(194, 186, 186);
+}
+#bgb{
+  margin-bottom: 50px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 7px;
+  height: auto;
+}
+#bgb:hover{
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.uinternal {
+  margin-top: 45px;
+}
+/* p.lead:hover{
+  background-color: rgb(203, 236, 182);
+} */
 .btn {
   margin: 0 5px;
+}
+.mytext {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 </style>
