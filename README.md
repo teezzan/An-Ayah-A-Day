@@ -1,24 +1,2 @@
-# quiz
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This is a web app for getting daily ayah from the Quran.
+<img src="https://drive.google.com/file/d/1rT0ppzLPTi0IfGr4vZFr4-si_LXWGqDS/view?usp=drivesdk" alt ="demo">
