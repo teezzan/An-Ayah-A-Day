@@ -1,17 +1,5 @@
 <template>
-  <!-- <div class="data-box-container">
-    <b-jumbotron class="uinternal">
-      <template  v-slot:lead>{{ inputdataAr.text }}</template>
-        
-      <hr class="my-4" />
-      <b-jumbotron class="internal">
-        <template v-slot:lead>{{ inputdataEn.text }}</template>
-      </b-jumbotron >
 
-      <b-button @click="next" variant="success" href="#">Next</b-button>
-      <b-button @click="randomize" variant="primary" href="#">Random</b-button>
-    </b-jumbotron>
-  </div>-->
   <!-- ۞ -->
 
   <div  id="bgb" class="p-5" >
