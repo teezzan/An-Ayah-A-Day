@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     fonty(inp){
-      if(inp.length < 250){
+      if(inp.length < 170){
         return `21px`
       }
       return `17px`

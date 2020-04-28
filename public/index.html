@@ -1,25 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <style>
-      #app {
-        background-color: rgb(34, 53, 89);
-      }
-    </style>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- <b-container id="app" > -->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <style>
+    body {
+      /* background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center; */
+      /* background-size: cover; */
+      /*animation*/
+
       
-    <!-- </b-container> -->
-    <!-- built files will be auto injected -->
-  </body>
+    }
+
+    .pic-wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    figure {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      /*animation*/
+
+      animation: slideShow 24s linear infinite 0s;
+      -o-animation: slideShow 24s linear infinite 0s;
+      -moz-animation: slideShow 24s linear infinite 0s;
+      -webkit-animation: slideShow 24s linear infinite 0s;
+    }
+
+    figurecaption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      color: #fff;
+    }
+
+    .pic-1 {
+      opacity: 1;
+      background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    .pic-2 {
+      animation-delay: 6s;
+      -o-animation-delay: 6s;
+      -moz--animation-delay: 6s;
+      -webkit-animation-delay: 6s;
+      background: url(http://localhost:5001/image/c33d31137b340b011d6810db7a425adf.jpg) no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    .pic-3 {
+      animation-delay: 12s;
+      -o-animation-delay: 12s;
+      -moz--animation-delay: 12s;
+      -webkit-animation-delay: 12s;
+      background: url(http://localhost:5001/image/d1b9c176a4fdace74ed2f6c51c545afe.jpg) no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    .pic-4 {
+      animation-delay: 18s;
+      -o-animation-delay: 18s;
+      -moz--animation-delay: 18s;
+      -webkit-animation-delay: 18s;
+      background: url(http://localhost:5001/image/60bd6825f9a02a3c764ae7114197d89b.jpg) no-repeat center center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    /* keyframes*/
+
+    @keyframes slideShow {
+      0% {
+        opacity: 0;
+        transform: scale(1);
+        -ms-transform: scale(1);
+      }
+
+      5% {
+        opacity: 1
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      30% {
+        opacity: 0;
+        transform: scale(1.1);
+        -ms-transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 0;
+        transform: scale(1);
+        -ms-transformm: scale(1);
+      }
+    }
+
+    @-o-keyframes slideShow {
+      0% {
+        opacity: 0;
+        -o-transform: scale(1);
+      }
+
+      5% {
+        opacity: 1
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      30% {
+        opacity: 0;
+        -o-transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 0;
+        -o-transformm: scale(1);
+      }
+    }
+
+    @-moz-keyframes slideShow {
+      0% {
+        opacity: 0;
+        -moz-transform: scale(1);
+      }
+
+      5% {
+        opacity: 1
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      30% {
+        opacity: 0;
+        -moz-transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 0;
+        -moz-transformm: scale(1);
+      }
+    }
+
+    @-webkit-keyframes slideShow {
+      0% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+      }
+
+      5% {
+        opacity: 1
+      }
+
+      25% {
+        opacity: 1;
+      }
+
+      30% {
+        opacity: 0;
+        -webkit-transform: scale(1.1);
+      }
+
+      100% {
+        opacity: 0;
+        -webkit-transformm: scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+      Please enable it to continue.</strong>
+  </noscript>
+  <div class="pic-wrapper">
+    <figure class="pic-1"></figure>
+    <figure class="pic-2"></figure>
+    <figure class="pic-3"></figure>
+    <figure class="pic-4"></figure>
+  </div>
+  <div id="app"></div>
+  <!-- <b-container id="app" > -->
+
+  <!-- </b-container> -->
+  <!-- built files will be auto injected -->
+</body>
+
 </html>
