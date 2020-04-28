@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .player{
-  /* margin-bottom: 180px; */
+  margin-bottom: 180px;
 
 }
 </style>

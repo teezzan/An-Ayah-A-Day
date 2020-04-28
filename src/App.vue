@@ -102,7 +102,7 @@ export default {
   mounted: function() {
    
 
-    this.getdata("http://localhost:5001/pay/1");
+    this.getdata("http://localhost:5001/pay/2");
     // this.getdata("https://api.alquran.cloud/v1/surah/1/editions/en.yusufali,ar.alafasy");
     setInterval(() => {
       // this.bgd++;
