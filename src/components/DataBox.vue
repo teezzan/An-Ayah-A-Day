@@ -22,7 +22,7 @@
 
       <b-col cols="6" align-self="end" >
          <b-button @click="next" variant="primary">Next</b-button>
-        <b-button @click="randomize" :variant="[change==1 ? 'primary' :'info']">
+        <b-button @click="randomize" v-bind:variant="[change==1 ? 'primary' :'info']">
           <span class="change" v-show="change==1 ? true :false">
             <b-spinner small></b-spinner>Loading
           </span>
@@ -64,6 +64,18 @@ export default {
 </script>
 
 <style scoped>
+
+@font-face {
+font-family: 'Uthmanic';
+src: 
+/* url('/../assets/font/Uthmanic.woff2') format('woff2'),
+url('/../assets/fonts/Uthmanic.woff') format('woff'), */
+url('/../assets/fonts/Uthmanic.ttf') format('truetype');
+font-style: normal;
+/* font-weight: 400; */
+}
+
+
 #en, #ar {
   margin-bottom: 10px;
   background-color: rgba(88, 74, 43, 0);
@@ -76,19 +88,26 @@ export default {
   background-color: rgba(170, 212, 169, 0.2);
   border-radius: 5px;
 }
-#arabic, #english {
+#arabic {
+  font-size: 21px;
+  font-family: "Uthmanic";
+  /* font-Weight: bold; */
+  color: rgb(194, 186, 186);
+}
+#english {
   font-size: 21px;
   /* font-Weight: bold; */
   color: rgb(194, 186, 186);
 }
 #bgb{
   margin-bottom: 50px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.75);
   border-radius: 7px;
   height: auto;
 }
 #bgb:hover{
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.85);
+  color:  rgb(255, 255, 255);
 }
 .uinternal {
   margin-top: 45px;

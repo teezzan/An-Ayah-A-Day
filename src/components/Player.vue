@@ -18,12 +18,10 @@ export default {
   },
   props: {
     audioUrl: String,
-    audioUrl1: String
   },
   methods: {
     pause() {
       if (this.$refs.audplay.paused)
-      // this.$refs.audplay.reload;
       this.$refs.audplay.play();
       else
           this.$refs.audplay.pause();

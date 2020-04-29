@@ -1,9 +1,15 @@
 <template>
-  <div id="app"  v-bind:style="{backgroundColor: `#${bgd}`}">
+  <div id="app" v-bind:style="{backgroundColor: `#${bgd}`}">
     <Header />
+    <b-row id="dispinfo">
+      <b-col id="surahname" class="mr-auto ml-auto" sm="4" >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
+      <b-col id="ayahindex" class="mr-auto ml-auto" sm="6"  >
+        <b-input id="ayahindexin" v-model='index' :value='index' class="ml-sm-auto "></b-input>
+      </b-col>
+    </b-row>
     <b-container id="extcon" class="bv-example-row">
       <b-row id="outter">
-        <b-col class="mr-auto ml-auto" sm="8" offset="2">
+        <b-col class="mr-auto ml-auto my-auto" sm="8" offset="2">
           <DataBox
             v-if="info.data"
             :inputdataEn="info.data[0].ayahs[index]"
@@ -15,11 +21,7 @@
           />
         </b-col>
       </b-row>
-      <Player
-        v-if="info.data"
-        :audioUrl="this.url[index]"
-        :audioUrl1="info.data[1].ayahs[index].audio"
-      />
+      <Player v-if="info.data" :audioUrl="info.data[1].ayahs[index].audio" />
     </b-container>
   </div>
 </template>
@@ -28,8 +30,6 @@
 import Header from "./components/Header.vue";
 import DataBox from "./components/DataBox.vue";
 import Player from "./components/Player.vue";
-// import * as THREE from "three";
-// import NET from "vanta/dist/vanta.net.min";
 
 export default {
   name: "App",
@@ -42,16 +42,7 @@ export default {
     return {
       info: {},
       index: 0,
-      bgd:0,
-      url: [
-        "http://localhost:3000/api/group/media/cdc132c6b549bdafc48e91b5725ba76d.mp3",
-        "http://localhost:3000/api/group/media/55f715614e6f372cc00cbabd5604407c.mp3",
-        "http://localhost:3000/api/group/media/21e46af06736eed5abac768d1db0bce1.mp3",
-        "",
-        "",
-        "",
-        ""
-      ],
+      bgd: 0,
       numberOfAyahs: 0,
       change: 0,
       vantaEffect: null
@@ -74,7 +65,6 @@ export default {
     },
     getdata(fetchurl) {
       this.change = 1;
-      // console.log('1 ',this.change);
       fetch(fetchurl, {
         method: "get"
       })
@@ -88,25 +78,18 @@ export default {
             // this.index=this.randomint(0,this.numberOfAyahs-1);
             this.index = 0;
             this.change = 0;
-            // console.log('0 ',this.change);
           } else {
             this.change = 2;
           }
         });
     },
-    bg(){
+    bg() {
       return this.bgd();
-
     }
   },
   mounted: function() {
-   
-
     this.getdata("http://localhost:5001/pay/2");
     // this.getdata("https://api.alquran.cloud/v1/surah/1/editions/en.yusufali,ar.alafasy");
-    setInterval(() => {
-      // this.bgd++;
-    }, 500);
   }
 };
 </script>
@@ -117,7 +100,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #34502c;
+  color: #ffffff;
   /* background-color: rgb(34, 53, 89); */
   margin-top: 60px;
   /* background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
@@ -125,5 +108,32 @@ export default {
 }
 #tee {
   margin-top: 100px;
+}
+#dispinfo {
+  /* font-family: Avenir, Helvetica, Arial, sans-serif; */
+  font-size: 20px;
+  margin-bottom: 18px;
+  color:  rgba(253, 253, 253, 0.6);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+#dispinfo:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color:  rgba(253, 253, 253, 0.9);
+}
+#surahname, #ayahindex #ayahindexin {
+  margin-top: 1px;
+}
+#ayahindexin {
+  margin-top: 1px;
+  background-color: rgba(0, 0, 0, 0);
+  color:  rgba(253, 253, 253, 0.6);
+  text-justify: left;
+  width: 58px;
+  border: none;
+
+}
+#ayahindexin:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color:  rgba(253, 253, 253);
 }
 </style>
