@@ -1,7 +1,7 @@
 <template>
   <div id="nana">
     <b-nav>
-      <b-nav-item >An Ayah A day</b-nav-item>
+      <b-nav-item > DailyAyah</b-nav-item>
       <!-- <b-nav-item variant="primary">Hadith</b-nav-item> -->
     </b-nav>
   </div>
