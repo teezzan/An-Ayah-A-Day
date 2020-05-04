@@ -4,6 +4,12 @@
 
   <div  id="bgb" class="p-5" >
 
+
+<div id="Hadith" v-if="qoh" >
+  {{ inputdataAr.text }}
+</div>
+
+
     <b-row align-v="center" class="p10 ">
       <b-col md="6" class="mytext">
         <b-card id="ar" align="right">
@@ -41,7 +47,9 @@ export default {
     next: Function,
     randomize: Function,
     numberOfAyahs: Number,
-    change: Number
+    change: Number,
+    hadith:Object,
+    qoh: Boolean
   },
   computed: {
     more_info() {
@@ -65,15 +73,15 @@ export default {
 
 <style scoped>
 
-@font-face {
-font-family: 'Uthmanic';
-src: 
+/* @font-face { */
+/* font-family: 'Uthmanic';
+src:  */
 /* url('/../assets/font/Uthmanic.woff2') format('woff2'),
 url('/../assets/fonts/Uthmanic.woff') format('woff'), */
-url('/../assets/fonts/Uthmanic.ttf') format('truetype');
-font-style: normal;
+/* url('/../assets/fonts/Amiri-Italic.ttf') format('truetype');
+font-style: normal; */
 /* font-weight: 400; */
-}
+/* } */
 
 
 #en, #ar {
@@ -90,7 +98,7 @@ font-style: normal;
 }
 #arabic {
   font-size: 21px;
-  font-family: "Uthmanic";
+  font-family: Amiri;
   /* font-Weight: bold; */
   color: rgb(194, 186, 186);
 }

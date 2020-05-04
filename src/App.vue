@@ -2,9 +2,13 @@
   <div id="app" v-bind:style="{backgroundColor: `#${bgd}`}">
     <Header />
     <b-row id="dispinfo">
-      <b-col id="surahname" class="mr-auto ml-auto" sm="4" >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
-      <b-col id="ayahindex" class="mr-auto ml-auto" sm="6"  >
-        <b-input id="ayahindexin" v-model='index' :value='index' class="ml-sm-auto "></b-input>
+      <b-col
+        id="surahname"
+        class="mr-auto ml-auto"
+        sm="4"
+      >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
+      <b-col id="ayahindex" class="mr-auto ml-auto" sm="6">
+        <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
       </b-col>
     </b-row>
     <b-container id="extcon" class="bv-example-row">
@@ -18,6 +22,7 @@
             :change="this.change"
             :next="next"
             :randomize="randomize"
+            :qoh="false"
           />
         </b-col>
       </b-row>
@@ -45,7 +50,7 @@ export default {
       bgd: 0,
       numberOfAyahs: 0,
       change: 0,
-      vantaEffect: null
+      hadith: {}
     };
   },
   methods: {
@@ -54,16 +59,16 @@ export default {
     },
     randomize() {
       var rand = this.randomint(0, 114);
-      var pre = "http://localhost:3500/";
+      // var pre = "http://localhost:3500/";
       var fetchurl = `https://api.alquran.cloud/v1/surah/${rand}/editions/en.yusufali,ar.alafasy`;
-      this.getdata("http://localhost:5001/pay/2");
-      //this.getdata(pre + fetchurl);
-      console.log(pre, fetchurl);
+      // this.getdata("http://localhost:5001/pay/2", 0);
+      this.getdata(fetchurl,0);
+      console.log(fetchurl);
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
-    getdata(fetchurl) {
+    getdata(fetchurl, qh) {
       this.change = 1;
       fetch(fetchurl, {
         method: "get"
@@ -72,14 +77,19 @@ export default {
           return response.json();
         })
         .then(jsonData => {
-          if (jsonData.data[0].numberOfAyahs != undefined) {
-            this.info = jsonData;
-            this.numberOfAyahs = jsonData.data[0].numberOfAyahs;
-            // this.index=this.randomint(0,this.numberOfAyahs-1);
-            this.index = 0;
-            this.change = 0;
+          if (qh == 0) {
+            if (jsonData.data[0].numberOfAyahs != undefined) {
+              this.info = jsonData;
+              this.numberOfAyahs = jsonData.data[0].numberOfAyahs;
+              this.index=this.randomint(0,this.numberOfAyahs-1);
+              // this.index = 0;
+              this.change = 0;
+            } else {
+              this.change = 2;
+            }
           } else {
-            this.change = 2;
+            this.hadith = jsonData;
+            //console.log(jsonData);
           }
         });
     },
@@ -88,15 +98,20 @@ export default {
     }
   },
   mounted: function() {
-    this.getdata("http://localhost:5001/pay/2");
-    // this.getdata("https://api.alquran.cloud/v1/surah/1/editions/en.yusufali,ar.alafasy");
+    this.randomize();
   }
 };
 </script>
 
 <style>
+@font-face {
+  font-family: "Amiri";
+  src: url("/../assets/fonts/Amiri-Italic.ttf") format("truetype");
+  font-style: normal;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Amiri, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -113,27 +128,27 @@ export default {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   font-size: 20px;
   margin-bottom: 18px;
-  color:  rgba(253, 253, 253, 0.6);
+  color: rgba(253, 253, 253, 0.6);
   background-color: rgba(0, 0, 0, 0.6);
 }
 #dispinfo:hover {
   background-color: rgba(0, 0, 0, 0.8);
-  color:  rgba(253, 253, 253, 0.9);
+  color: rgba(253, 253, 253, 0.9);
 }
-#surahname, #ayahindex #ayahindexin {
+#surahname,
+#ayahindex #ayahindexin {
   margin-top: 1px;
 }
 #ayahindexin {
   margin-top: 1px;
   background-color: rgba(0, 0, 0, 0);
-  color:  rgba(253, 253, 253, 0.6);
+  color: rgba(253, 253, 253, 0.6);
   text-justify: left;
   width: 58px;
   border: none;
-
 }
 #ayahindexin:hover {
   background-color: rgba(0, 0, 0, 0.8);
-  color:  rgba(253, 253, 253);
+  color: rgba(253, 253, 253);
 }
 </style>
