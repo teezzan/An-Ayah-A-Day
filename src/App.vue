@@ -63,7 +63,7 @@ export default {
       var fetchurl = `https://api.alquran.cloud/v1/surah/${rand}/editions/en.yusufali,ar.alafasy`;
       // this.getdata("http://localhost:5001/pay/2", 0);
       this.getdata(fetchurl,0);
-      console.log(fetchurl);
+     // console.log(fetchurl);
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
