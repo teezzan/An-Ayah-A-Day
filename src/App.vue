@@ -143,7 +143,7 @@ export default {
   margin-top: 1px;
   background-color: rgba(0, 0, 0, 0);
   color: rgba(253, 253, 253, 0.6);
-  text-justify: left;
+  text-justify: right;
   width: 58px;
   border: none;
 }
