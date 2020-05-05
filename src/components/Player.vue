@@ -2,11 +2,11 @@
   <b-row align-h="center">
     <b-col cols="6" align-self="end" class="player">
       <b-button variant="primary" class="p10" @click="pause">Pause/Play</b-button>
+      <!-- <input type="checkbox" id="checkbox" v-model="cont">Continous mode. -->
       <audio controls ref="audplay" style="display: none">
         <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
       </audio>
       <br />
-      
     </b-col>
   </b-row>
 </template>
@@ -15,11 +15,13 @@
 export default {
   data() {
     return {
-      aud: this.audioUrl
+      aud: this.audioUrl,
+      cont: false
     };
   },
   props: {
-    audioUrl: String
+    audioUrl: String,
+    next: Function
   },
   methods: {
     pause() {
@@ -42,6 +44,12 @@ export default {
         this.$refs.audplay.src = this.audioUrl;
         this.$refs.audplay.pause();
         this.$refs.audplay.play();
+        if(this.cont){
+        // setTimeout(() => {
+        //   // this.next();
+        //   alert("hiiii")
+        // } ,1000)//(this.$refs.audplay.duration * 1000) + 1500);
+        }
       }
     }
   }

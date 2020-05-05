@@ -26,7 +26,9 @@
           />
         </b-col>
       </b-row>
-      <Player v-if="info.data" :audioUrl="info.data[1].ayahs[index].audio" />
+      <Player v-if="info.data" 
+      :audioUrl="info.data[1].ayahs[index].audio"
+      :next="next" />
     </b-container>
   </div>
 </template>
