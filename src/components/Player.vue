@@ -1,7 +1,7 @@
 <template>
-  <b-row align-h="center">
-    <b-col cols="6" align-self="end" class="player">
-      <b-button variant="primary" class="p10" @click="pause">Pause/Play</b-button>
+  <b-row align-h="center" v-show="!qoh">
+    <b-col cols="6" align-self="end" class="player"  >
+      <b-button variant="primary" class="p10" @click="pause" >Pause/Play</b-button>
       <!-- <input type="checkbox" id="checkbox" v-model="cont">Continous mode. -->
       <audio controls ref="audplay" style="display: none">
         <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
@@ -21,7 +21,8 @@ export default {
   },
   props: {
     audioUrl: String,
-    next: Function
+    next: Function,
+    qoh: Boolean
   },
   methods: {
     pause() {

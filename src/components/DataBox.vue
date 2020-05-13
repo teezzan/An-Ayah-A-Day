@@ -1,33 +1,31 @@
 <template>
-
   <!-- ۞ -->
 
-  <div  id="bgb" class="p-5" >
+  <div id="bgb" class="p-5">
+    <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
 
-
-<div id="Hadith" v-if="qoh" >
-  {{ inputdataAr.text }}
-</div>
-
-
-    <b-row align-v="center" class="p10 ">
+    <b-row align-v="center" class="p10" v-if="!qoh"> 
       <b-col md="6" class="mytext">
         <b-card id="ar" align="right">
-          <b-card-text id="arabic"  >{{ inputdataAr.text }}</b-card-text>
+          <b-card-text id="arabic">{{ inputdataAr.text }}</b-card-text>
         </b-card>
       </b-col>
       <hr class="my-4" />
       <b-col md="6" class="mytext">
         <b-card id="en" align="left">
-          <b-card-text id="english" v-bind:style="{fontSize: fonty(inputdataEn.text)}">{{ inputdataEn.text }}</b-card-text>
+          <b-card-text
+            id="english"
+            v-bind:style="{fontSize: fonty(inputdataEn.text)}"
+          >{{ inputdataEn.text }}</b-card-text>
         </b-card>
       </b-col>
     </b-row>
 
-    <b-row align-h="center" >
+    <b-row align-h="center">
+      
 
-      <b-col cols="6" align-self="end" >
-         <b-button @click="next" variant="primary">Next</b-button>
+      <b-col cols="6" align-self="end">
+        <b-button @click="next" variant="primary">Next</b-button>
         <b-button @click="randomize" v-bind:variant="[change==1 ? 'primary' :'info']">
           <span class="change" v-show="change==1 ? true :false">
             <b-spinner small></b-spinner>Loading
@@ -48,31 +46,39 @@ export default {
     randomize: Function,
     numberOfAyahs: Number,
     change: Number,
-    hadith:Object,
+    hadith: Array,
     qoh: Boolean
+  },
+  data() {
+    return {
+      hadith_disp: "",
+    };
   },
   computed: {
     more_info() {
       console.log("stuff could happen here");
       return "info";
-    },
-    
+    }
   },
   methods: {
-    fonty(inp){
-      if(inp.length < 170){
-        return `21px`
+    fonty(inp) {
+      if (inp.length < 170) {
+        return `21px`;
       }
-      return `17px`
-      // 
-
-    }
+      return `17px`;
+      //
+    },
+    randomint(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
+    },
+  },
+  mounted(){
+    this.hadith_disp = `${this.hadith[this.randomint(0,1894)].En_Sanad} ${this.hadith[this.randomint(0,1894)].En_Text}`;
   }
 };
 </script>
 
 <style scoped>
-
 /* @font-face { */
 /* font-family: 'Uthmanic';
 src:  */
@@ -83,8 +89,8 @@ font-style: normal; */
 /* font-weight: 400; */
 /* } */
 
-
-#en, #ar {
+#en,
+#ar {
   margin-bottom: 10px;
   background-color: rgba(88, 74, 43, 0);
 }
@@ -107,15 +113,15 @@ font-style: normal; */
   /* font-Weight: bold; */
   color: rgb(194, 186, 186);
 }
-#bgb{
+#bgb {
   margin-bottom: 50px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 7px;
   height: auto;
 }
-#bgb:hover{
+#bgb:hover {
   background-color: rgba(0, 0, 0, 0.85);
-  color:  rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
 .uinternal {
   margin-top: 45px;

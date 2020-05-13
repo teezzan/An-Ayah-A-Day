@@ -6,8 +6,18 @@
         id="surahname"
         class="mr-auto ml-auto"
         sm="4"
+         v-if="!qoh"
       >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
-      <b-col id="ayahindex" class="mr-auto ml-auto" sm="6">
+
+      <b-col>
+        <span>Hadith</span>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="customSwitch1" v-model="qoh" />
+          <label class="custom-control-label" for="customSwitch1">Quran</label>
+        </div>
+      </b-col>
+
+      <b-col id="ayahindex" class="mr-auto ml-auto" sm="6" v-if="!qoh">
         <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
       </b-col>
     </b-row>
@@ -22,13 +32,12 @@
             :change="this.change"
             :next="next"
             :randomize="randomize"
-            :qoh="false"
+            :qoh="this.qoh"
+            :hadith="this.hadith.AllChapters"
           />
         </b-col>
       </b-row>
-      <Player v-if="info.data" 
-      :audioUrl="info.data[1].ayahs[index].audio"
-      :next="next" />
+      <Player v-if="info.data" :audioUrl="info.data[1].ayahs[index].audio" :next="next" :qoh="this.qoh" />
     </b-container>
   </div>
 </template>
@@ -37,7 +46,7 @@
 import Header from "./components/Header.vue";
 import DataBox from "./components/DataBox.vue";
 import Player from "./components/Player.vue";
-
+import hadith from "./assets/en";
 export default {
   name: "App",
   components: {
@@ -52,20 +61,27 @@ export default {
       bgd: 0,
       numberOfAyahs: 0,
       change: 0,
-      hadith: {}
+      qoh: false,
+      hadith: hadith,
+      // raw: raw,
     };
   },
   methods: {
     next() {
       this.index++;
     },
+    // gethadith() {
+      
+    //   var parsed = JSON.parse(this.raw);
+    //   this.hadith = parsed;
+    // },
     randomize() {
       var rand = this.randomint(0, 114);
       // var pre = "http://localhost:3500/";
       var fetchurl = `https://api.alquran.cloud/v1/surah/${rand}/editions/en.yusufali,ar.alafasy`;
       // this.getdata("http://localhost:5001/pay/2", 0);
-      this.getdata(fetchurl,0);
-     // console.log(fetchurl);
+      this.getdata(fetchurl, 0);
+      // console.log(fetchurl);
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
@@ -83,7 +99,7 @@ export default {
             if (jsonData.data[0].numberOfAyahs != undefined) {
               this.info = jsonData;
               this.numberOfAyahs = jsonData.data[0].numberOfAyahs;
-              this.index=this.randomint(0,this.numberOfAyahs-1);
+              this.index = this.randomint(0, this.numberOfAyahs - 1);
               // this.index = 0;
               this.change = 0;
             } else {
@@ -101,6 +117,7 @@ export default {
   },
   mounted: function() {
     this.randomize();
+    // this.gethadith();
   }
 };
 </script>
