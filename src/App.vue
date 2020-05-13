@@ -9,15 +9,18 @@
          v-if="!qoh"
       >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
 
-      <b-col>
-        <span>Hadith</span>
+      <b-col class="mr-auto ml-auto" sm="4" >
+        <!-- <span>Hadith</span>
         <div class="custom-control custom-switch">
           <input type="checkbox" class="custom-control-input" id="customSwitch1" v-model="qoh" />
           <label class="custom-control-label" for="customSwitch1">Quran</label>
-        </div>
-      </b-col>
+        </div> -->
+        <label class="switch"><input type="checkbox" id="togBtn" v-model="qoh"><div class="slider round"><span class="on">Hadith</span><span class="off">Quran</span></div></label>
+        </b-col>
 
-      <b-col id="ayahindex" class="mr-auto ml-auto" sm="6" v-if="!qoh">
+      
+
+      <b-col id="ayahindex" class="mr-auto ml-auto"  v-if="!qoh">
         <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
       </b-col>
     </b-row>
@@ -170,4 +173,84 @@ export default {
   background-color: rgba(0, 0, 0, 0.8);
   color: rgba(253, 253, 253);
 }
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 90px;
+  height: 34px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ca2222;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2ab934;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(55px);
+  -ms-transform: translateX(55px);
+  transform: translateX(55px);
+}
+
+/*------ ADDED CSS ---------*/
+.on
+{
+  display: none;
+}
+
+.on, .off
+{
+  color: white;
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: 50%;
+  left: 50%;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+}
+
+input:checked+ .slider .on
+{display: block;}
+
+input:checked + .slider .off
+{display: none;}
+
+/*--------- END --------*/
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;}
 </style>
