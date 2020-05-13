@@ -25,8 +25,8 @@
       
 
       <b-col cols="6" align-self="end">
-        <b-button @click="next" variant="primary">Next</b-button>
-        <b-button @click="randomize" v-bind:variant="[change==1 ? 'primary' :'info']">
+        <b-button @click="rand(2)" variant="primary">Next</b-button>
+        <b-button @click="rand(1)" v-bind:variant="[change==1 ? 'primary' :'info']">
           <span class="change" v-show="change==1 ? true :false">
             <b-spinner small></b-spinner>Loading
           </span>
@@ -68,13 +68,29 @@ export default {
       return `17px`;
       //
     },
+    rand(i){
+      if (this.qoh){
+        this.randomhadith();
+      }
+      else{
+        if(i==1){
+          this.randomize();
+        }
+        else{
+          this.next();
+        }
+      }
+    },
+    randomhadith(){
+      this.hadith_disp = `${this.hadith[this.randomint(0,1894)].En_Sanad} ${this.hadith[this.randomint(0,1894)].En_Text}`;
+    },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
   },
   mounted(){
-    this.hadith_disp = `${this.hadith[this.randomint(0,1894)].En_Sanad} ${this.hadith[this.randomint(0,1894)].En_Text}`;
-  }
+    this.randomhadith();
+    }
 };
 </script>
 
