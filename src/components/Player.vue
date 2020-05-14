@@ -17,7 +17,7 @@ export default {
     return {
       aud: this.audioUrl,
       cont: false,
-      playOrPause: "Play"
+      playOrPause: "Pause/Play"
     };
   },
   props: {
@@ -30,11 +30,11 @@ export default {
       if (this.$refs.audplay.paused) {
         this.$refs.audplay.play();
         if (this.$refs.audplay.duration > 0){
-          this.playOrPause = "Pause"; 
+          this.playOrPause = "Pause/Paste"; 
        }
       } else {
         this.$refs.audplay.pause();
-        this.playOrPause = "Play";
+        this.playOrPause = "Pause/Play";
       }
     },
     update() {
