@@ -202,15 +202,9 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-<<<<<<< HEAD
   background-color: #735d91;
   -webkit-transition: .4s;
   transition: .4s;
-=======
-  background-color: #ca2222;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
->>>>>>> f3447b9b3ec9e0dd01b3d4a5603096c54e19b3e4
 }
 
 .slider:before {
