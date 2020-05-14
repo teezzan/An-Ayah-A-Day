@@ -18,8 +18,8 @@
         <label class="switch">
           <input type="checkbox" id="togBtn" v-model="qoh" />
           <div class="slider round">
-            <span class="on"> Hadith</span>
-            <span class="off"> Quran</span>
+            <span class="on">Hadith</span>
+            <span class="off">Quran</span>
           </div>
         </label>
       </b-col>
@@ -51,7 +51,6 @@
         :qoh="this.qoh"
       />
     </b-container>
-    <div class="onesignal-customlink-container"></div>
   </div>
 </template>
 
@@ -203,8 +202,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #735d91;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
