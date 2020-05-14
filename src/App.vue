@@ -6,21 +6,25 @@
         id="surahname"
         class="mr-auto ml-auto"
         sm="4"
-         v-if="!qoh"
+        v-if="!qoh"
       >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
 
-      <b-col class="mr-auto ml-auto" sm="4" >
+      <b-col class="mr-auto ml-auto" sm="4">
         <!-- <span>Hadith</span>
         <div class="custom-control custom-switch">
           <input type="checkbox" class="custom-control-input" id="customSwitch1" v-model="qoh" />
           <label class="custom-control-label" for="customSwitch1">Quran</label>
-        </div> -->
-        <label class="switch"><input type="checkbox" id="togBtn" v-model="qoh"><div class="slider round"><span class="on">Hadith</span><span class="off">Quran</span></div></label>
-        </b-col>
+        </div>-->
+        <label class="switch">
+          <input type="checkbox" id="togBtn" v-model="qoh" />
+          <div class="slider round">
+            <span class="on">Hadith</span>
+            <span class="off">Quran</span>
+          </div>
+        </label>
+      </b-col>
 
-      
-
-      <b-col id="ayahindex" class="mr-auto ml-auto"  v-if="!qoh">
+      <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
         <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
       </b-col>
     </b-row>
@@ -40,8 +44,14 @@
           />
         </b-col>
       </b-row>
-      <Player v-if="info.data" :audioUrl="info.data[1].ayahs[index].audio" :next="next" :qoh="this.qoh" />
+      <Player
+        v-if="info.data"
+        :audioUrl="info.data[1].ayahs[index].audio"
+        :next="next"
+        :qoh="this.qoh"
+      />
     </b-container>
+    <div class="onesignal-customlink-container"></div>
   </div>
 </template>
 
@@ -65,7 +75,7 @@ export default {
       numberOfAyahs: 0,
       change: 0,
       qoh: false,
-      hadith: hadith,
+      hadith: hadith
       // raw: raw,
     };
   },
@@ -74,7 +84,7 @@ export default {
       this.index++;
     },
     // gethadith() {
-      
+
     //   var parsed = JSON.parse(this.raw);
     //   this.hadith = parsed;
     // },
@@ -181,7 +191,9 @@ export default {
   height: 34px;
 }
 
-.switch input {display:none;}
+.switch input {
+  display: none;
+}
 
 .slider {
   position: absolute;
@@ -191,8 +203,8 @@ export default {
   right: 0;
   bottom: 0;
   background-color: #ca2222;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -203,8 +215,8 @@ export default {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
@@ -212,7 +224,7 @@ input:checked + .slider {
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -222,27 +234,28 @@ input:checked + .slider:before {
 }
 
 /*------ ADDED CSS ---------*/
-.on
-{
+.on {
   display: none;
 }
 
-.on, .off
-{
+.on,
+.off {
   color: white;
   position: absolute;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
   font-size: 10px;
   font-family: Verdana, sans-serif;
 }
 
-input:checked+ .slider .on
-{display: block;}
+input:checked + .slider .on {
+  display: block;
+}
 
-input:checked + .slider .off
-{display: none;}
+input:checked + .slider .off {
+  display: none;
+}
 
 /*--------- END --------*/
 
@@ -252,5 +265,6 @@ input:checked + .slider .off
 }
 
 .slider.round:before {
-  border-radius: 50%;}
+  border-radius: 50%;
+}
 </style>
