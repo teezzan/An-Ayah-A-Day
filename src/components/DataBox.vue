@@ -4,7 +4,7 @@
   <div id="bgb" class="p-5">
     <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
 
-    <b-row align-v="center" class="p10" v-if="!qoh"> 
+    <b-row align-v="center" class="p10" v-if="!qoh">
       <b-col md="6" class="mytext">
         <b-card id="ar" align="right">
           <b-card-text id="arabic">{{ inputdataAr.text }}</b-card-text>
@@ -22,15 +22,13 @@
     </b-row>
 
     <b-row align-h="center">
-      
-
       <b-col cols="6" align-self="end">
-        <b-button @click="rand(2)" variant="primary">Next</b-button>
+        <b-button @click="rand(2)" variant="primary" class="custom-button">Next</b-button>
         <b-button @click="rand(1)" v-bind:variant="[change==1 ? 'primary' :'info']">
           <span class="change" v-show="change==1 ? true :false">
             <b-spinner small></b-spinner>Loading
           </span>
-          <span v-show="change==0">Random</span>
+          <span v-show="change==0" class="custom-button">Random</span>
         </b-button>
       </b-col>
     </b-row>
@@ -51,7 +49,7 @@ export default {
   },
   data() {
     return {
-      hadith_disp: "",
+      hadith_disp: ""
     };
   },
   computed: {
@@ -68,29 +66,29 @@ export default {
       return `17px`;
       //
     },
-    rand(i){
-      if (this.qoh){
+    rand(i) {
+      if (this.qoh) {
         this.randomhadith();
-      }
-      else{
-        if(i==1){
+      } else {
+        if (i == 1) {
           this.randomize();
-        }
-        else{
+        } else {
           this.next();
         }
       }
     },
-    randomhadith(){
-      this.hadith_disp = `${this.hadith[this.randomint(0,1894)].En_Sanad} ${this.hadith[this.randomint(0,1894)].En_Text}`;
+    randomhadith() {
+      this.hadith_disp = `${this.hadith[this.randomint(0, 1894)].En_Sanad} ${
+        this.hadith[this.randomint(0, 1894)].En_Text
+      }`;
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
-    },
-  },
-  mounted(){
-    this.randomhadith();
     }
+  },
+  mounted() {
+    this.randomhadith();
+  }
 };
 </script>
 
@@ -151,5 +149,9 @@ font-style: normal; */
 .mytext {
   margin-top: 25px;
   margin-bottom: 25px;
+}
+.custom-button {
+  width: 100px;
+  margin: 10px;
 }
 </style>
