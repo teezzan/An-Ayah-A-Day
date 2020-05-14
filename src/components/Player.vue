@@ -17,7 +17,7 @@ export default {
     return {
       aud: this.audioUrl,
       cont: false,
-      playOrPause: "Play";
+      playOrPause: "Play"
     };
   },
   props: {
