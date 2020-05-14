@@ -18,8 +18,8 @@
         <label class="switch">
           <input type="checkbox" id="togBtn" v-model="qoh" />
           <div class="slider round">
-            <span class="on">Hadith</span>
-            <span class="off">Quran</span>
+            <span class="on"> Hadith</span>
+            <span class="off"> Quran</span>
           </div>
         </label>
       </b-col>
@@ -245,7 +245,7 @@ input:checked + .slider:before {
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
-  font-size: 10px;
+  font-size: 13px;
   font-family: Verdana, sans-serif;
 }
 
