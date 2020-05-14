@@ -1,219 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      body {
+        /* background-color: red; */
+        background: url("https://source.unsplash.com/random/2048x900/?bright")
+          no-repeat center center;
+        background-size: cover;
+        /*animation*/
+      }
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title><%= htmlWebpackPlugin.options.title %></title>
-  <style>
-    body {
-      /* background-color: red; */
-      background: url('https://source.unsplash.com/random/2048x900/?bright') no-repeat center center;
-      background-size: cover;
-      /*animation*/
+      .pic-wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
 
-      
-     } 
-
-    .pic-wrapper {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    figure {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      /*animation*/
-
-      animation: slideShow 24s linear infinite 0s;
-      -o-animation: slideShow 24s linear infinite 0s;
-      -moz-animation: slideShow 24s linear infinite 0s;
-      -webkit-animation: slideShow 24s linear infinite 0s;
-    }
-
-    figurecaption {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      color: #fff;
-    }
-
-    .pic-1 {
-      opacity: 1;
-      background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-    }
-
-    .pic-2 {
-      animation-delay: 6s;
-      -o-animation-delay: 6s;
-      -moz--animation-delay: 6s;
-      -webkit-animation-delay: 6s;
-      background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-    }
-
-    .pic-3 {
-      animation-delay: 12s;
-      -o-animation-delay: 12s;
-      -moz--animation-delay: 12s;
-      -webkit-animation-delay: 12s;
-      background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-    }
-
-    .pic-4 {
-      animation-delay: 18s;
-      -o-animation-delay: 18s;
-      -moz--animation-delay: 18s;
-      -webkit-animation-delay: 18s;
-      background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      -o-background-size: cover;
-      background-size: cover;
-    }
-
-    /* keyframes*/
-
-    @keyframes slideShow {
-      0% {
+      figure {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         opacity: 0;
-        transform: scale(1);
-        -ms-transform: scale(1);
+        /*animation*/
+
+        animation: slideShow 24s linear infinite 0s;
+        -o-animation: slideShow 24s linear infinite 0s;
+        -moz-animation: slideShow 24s linear infinite 0s;
+        -webkit-animation: slideShow 24s linear infinite 0s;
       }
 
-      5% {
-        opacity: 1
+      figurecaption {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        color: #fff;
       }
 
-      25% {
+      .pic-1 {
         opacity: 1;
+        background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg)
+          no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
       }
 
-      30% {
-        opacity: 0;
-        transform: scale(1.1);
-        -ms-transform: scale(1.1);
+      .pic-2 {
+        animation-delay: 6s;
+        -o-animation-delay: 6s;
+        -moz--animation-delay: 6s;
+        -webkit-animation-delay: 6s;
+        background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg)
+          no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
       }
 
-      100% {
-        opacity: 0;
-        transform: scale(1);
-        -ms-transformm: scale(1);
-      }
-    }
-
-    @-o-keyframes slideShow {
-      0% {
-        opacity: 0;
-        -o-transform: scale(1);
-      }
-
-      5% {
-        opacity: 1
+      .pic-3 {
+        animation-delay: 12s;
+        -o-animation-delay: 12s;
+        -moz--animation-delay: 12s;
+        -webkit-animation-delay: 12s;
+        background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg)
+          no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
       }
 
-      25% {
-        opacity: 1;
+      .pic-4 {
+        animation-delay: 18s;
+        -o-animation-delay: 18s;
+        -moz--animation-delay: 18s;
+        -webkit-animation-delay: 18s;
+        background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg)
+          no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
       }
 
-      30% {
-        opacity: 0;
-        -o-transform: scale(1.1);
+      /* keyframes*/
+
+      @keyframes slideShow {
+        0% {
+          opacity: 0;
+          transform: scale(1);
+          -ms-transform: scale(1);
+        }
+
+        5% {
+          opacity: 1;
+        }
+
+        25% {
+          opacity: 1;
+        }
+
+        30% {
+          opacity: 0;
+          transform: scale(1.1);
+          -ms-transform: scale(1.1);
+        }
+
+        100% {
+          opacity: 0;
+          transform: scale(1);
+          -ms-transformm: scale(1);
+        }
       }
 
-      100% {
-        opacity: 0;
-        -o-transformm: scale(1);
-      }
-    }
+      @-o-keyframes slideShow {
+        0% {
+          opacity: 0;
+          -o-transform: scale(1);
+        }
 
-    @-moz-keyframes slideShow {
-      0% {
-        opacity: 0;
-        -moz-transform: scale(1);
-      }
+        5% {
+          opacity: 1;
+        }
 
-      5% {
-        opacity: 1
-      }
+        25% {
+          opacity: 1;
+        }
 
-      25% {
-        opacity: 1;
-      }
+        30% {
+          opacity: 0;
+          -o-transform: scale(1.1);
+        }
 
-      30% {
-        opacity: 0;
-        -moz-transform: scale(1.1);
-      }
-
-      100% {
-        opacity: 0;
-        -moz-transformm: scale(1);
-      }
-    }
-
-    @-webkit-keyframes slideShow {
-      0% {
-        opacity: 0;
-        -webkit-transform: scale(1);
+        100% {
+          opacity: 0;
+          -o-transformm: scale(1);
+        }
       }
 
-      5% {
-        opacity: 1
+      @-moz-keyframes slideShow {
+        0% {
+          opacity: 0;
+          -moz-transform: scale(1);
+        }
+
+        5% {
+          opacity: 1;
+        }
+
+        25% {
+          opacity: 1;
+        }
+
+        30% {
+          opacity: 0;
+          -moz-transform: scale(1.1);
+        }
+
+        100% {
+          opacity: 0;
+          -moz-transformm: scale(1);
+        }
       }
 
-      25% {
-        opacity: 1;
-      }
+      @-webkit-keyframes slideShow {
+        0% {
+          opacity: 0;
+          -webkit-transform: scale(1);
+        }
 
-      30% {
-        opacity: 0;
-        -webkit-transform: scale(1.1);
-      }
+        5% {
+          opacity: 1;
+        }
 
-      100% {
-        opacity: 0;
-        -webkit-transformm: scale(1);
-      }
-    }
-  </style>
-</head>
+        25% {
+          opacity: 1;
+        }
 
-<body>
-  <noscript>
-    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
-      Please enable it to continue.</strong>
-  </noscript>
-  <!-- <div class="pic-wrapper">
+        30% {
+          opacity: 0;
+          -webkit-transform: scale(1.1);
+        }
+
+        100% {
+          opacity: 0;
+          -webkit-transformm: scale(1);
+        }
+      }
+    </style>
+
+    <script
+      src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"
+      async=""
+    ></script>
+    <script>
+      var OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: "e6150871-9daf-4549-a55e-c97c48337ceb",
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
+        properly without JavaScript enabled. Please enable it to
+        continue.</strong
+      >
+    </noscript>
+    <!-- <div class="pic-wrapper">
     <figure class="pic-1"></figure>
     <figure class="pic-2"></figure>
     <figure class="pic-3"></figure>
     <figure class="pic-4"></figure>
   </div> -->
-  <div id="app"></div>
-  <!-- <b-container id="app" > -->
+    <div id="app"></div>
+    <!-- <b-container id="app" > -->
 
-  <!-- </b-container> -->
-  <!-- built files will be auto injected -->
-</body>
-
+    <!-- </b-container> -->
+    <!-- built files will be auto injected -->
+  </body>
 </html>
