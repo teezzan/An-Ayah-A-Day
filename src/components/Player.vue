@@ -17,7 +17,7 @@ export default {
     return {
       aud: this.audioUrl,
       cont: false,
-      playOrPause: this.checkAudio()
+      playOrPause: "Play";
     };
   },
   props: {
@@ -29,8 +29,12 @@ export default {
     pause() {
       if (this.$refs.audplay.paused) {
         this.$refs.audplay.play();
+        if (this.$refs.audplay.duration > 0){
+          this.playOrPause = "Pause"; 
+       }
       } else {
         this.$refs.audplay.pause();
+        this.playOrPause = "Play";
       }
     },
     update() {
@@ -56,9 +60,6 @@ export default {
           // } ,1000)//(this.$refs.audplay.duration * 1000) + 1500);
         }
       }
-    },
-    checkAudio: function() {
-      return this.$refs.audplay.played.length > 0 ? "Pause" : "Play";
     }
   }
 };
