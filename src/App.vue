@@ -190,7 +190,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ca2222;
+  background-color: #735d91;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -208,7 +208,7 @@ export default {
 }
 
 input:checked + .slider {
-  background-color: #2ab934;
+  background-color: #98d69c;
 }
 
 input:focus + .slider {
@@ -244,9 +244,6 @@ input:checked+ .slider .on
 input:checked + .slider .off
 {display: none;}
 
-/*--------- END --------*/
-
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
