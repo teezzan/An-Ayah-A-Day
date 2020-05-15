@@ -50,6 +50,15 @@
         :next="next"
         :qoh="this.qoh"
       />
+
+      <!-- list the reciters -->
+      <div>
+        <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
+        <div class="mt-3">
+          Selected:
+          <strong>{{ selected }}</strong>
+        </div>
+      </div>
     </b-container>
   </div>
 </template>
@@ -72,28 +81,25 @@ export default {
       index: 0,
       bgd: 0,
       numberOfAyahs: 0,
+      currentSurah: null,
       change: 0,
       qoh: false,
-      hadith: hadith
-      // raw: raw,
+      hadith: hadith,
+      reciter: null,
+      selected_reciter: null,
+      options: []
     };
   },
   methods: {
     next() {
       this.index++;
     },
-    // gethadith() {
-
-    //   var parsed = JSON.parse(this.raw);
-    //   this.hadith = parsed;
-    // },
     randomize() {
-      var rand = this.randomint(0, 114);
-      // var pre = "http://localhost:3500/";
-      var fetchurl = `https://api.alquran.cloud/v1/surah/${rand}/editions/en.yusufali,ar.alafasy`;
-      // this.getdata("http://localhost:5001/pay/2", 0);
-      this.getdata(fetchurl, 0);
-      // console.log(fetchurl);
+      this.currentSurah = this.randomint(0, 114);
+      //var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      this.currentSurah = 2; //for local test
+      this.getdata("http://localhost:5001/pay/2", 0);
+      // this.getdata(fetchurl, 0);
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
@@ -118,8 +124,7 @@ export default {
               this.change = 2;
             }
           } else {
-            this.hadith = jsonData;
-            //console.log(jsonData);
+            this.reciter = jsonData;
           }
         });
     },
@@ -127,8 +132,25 @@ export default {
       return this.bgd();
     }
   },
+  watch: {
+    reciter: function() {
+      this.options =[{ value: null, text: "Please select a reciter" },];
+      
+      for(var i=0; i<this.reciter.reciters_verse.length; i++){
+        if(this.reciter.reciters_verse[i].audio_url_bit_rate_64 != ""){
+        var tempOption ={value: i, text :`${this.reciter.reciters_verse[i].name}` };
+        this.options.push(tempOption);
+        }
+      }
+      
+    }
+  },
   mounted: function() {
     this.randomize();
+    this.getdata(
+      "http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json",
+      1
+    );
     // this.gethadith();
   }
 };
