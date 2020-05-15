@@ -83,7 +83,7 @@ export default {
       qoh: false,
       hadith: hadith,
       reciter: reciter,
-      selected_reciter: 1,
+      selected_reciter: 37,
       options: []
     };
   },
