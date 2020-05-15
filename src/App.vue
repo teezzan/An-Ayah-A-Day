@@ -126,7 +126,7 @@ export default {
       return "";
     },
     parseName(name){
-      name.substring(name.indexOf("/arabic/")+8, name.indexOf("/64/"))
+      return name.substring(name.indexOf("/arabic/")+8, name.indexOf("/64/")).replace('_'," ");
     },
 
     getdata(fetchurl, qh) {
@@ -165,7 +165,7 @@ export default {
         if (this.reciter.reciters_verse[i].audio_url_bit_rate_64 != "") {
           var tempOption = {
             value: i,
-            text: `${parseName(this.reciter.reciters_verse[i].audio_url_bit_rate_64)}`
+            text: `${this.parseName(this.reciter.reciters_verse[i].audio_url_bit_rate_64)}`
           };
           this.options.push(tempOption);
         }
