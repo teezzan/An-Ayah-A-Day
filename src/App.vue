@@ -44,14 +44,7 @@
           />
         </b-col>
       </b-row>
-      <Player
-        v-if="info.data"
-        :audioUrl="info.data[1].ayahs[index].audio"
-        :next="next"
-        :qoh="this.qoh"
-      />
 
-      <!-- list the reciters -->
       <div>
         <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
         <div class="mt-3">
@@ -59,6 +52,10 @@
           <strong>{{ selected }}</strong>
         </div>
       </div>
+
+      <Player v-if="info.data" :audioUrl="audioLink()" :next="next" :qoh="this.qoh" />
+
+      <!-- list the reciters -->
     </b-container>
   </div>
 </template>
@@ -86,13 +83,16 @@ export default {
       qoh: false,
       hadith: hadith,
       reciter: null,
-      selected_reciter: null,
+      selected_reciter: 1,
       options: []
     };
   },
   methods: {
     next() {
       this.index++;
+    },
+    randomint(min, max) {
+      return Math.floor(Math.random() * (max - min + 1) + min);
     },
     randomize() {
       this.currentSurah = this.randomint(0, 114);
@@ -101,9 +101,32 @@ export default {
       this.getdata("http://localhost:5001/pay/2", 0);
       // this.getdata(fetchurl, 0);
     },
-    randomint(min, max) {
-      return Math.floor(Math.random() * (max - min + 1) + min);
+    parseNum(num) {
+      if (num / 10 < 1) {
+        return `00${num}`;
+      }
+
+      if (num / 10 < 10) {
+        return `0${num}`;
+      }
+
+      if (num / 10 >= 10) {
+        return `${num}`;
+      }
     },
+    audioLink() {
+      //https://verse.mp3quran.net/arabic/shaik_abu_baker_alshatri/64/001002.mp3
+      if (this.selected_reciter != null) {
+        var surah = this.parseNum(this.currentSurah);
+        var ayah = this.parseNum(this.index);
+        return `${
+          this.reciter.reciters_verse[this.selected_reciter]
+            .audio_url_bit_rate_64
+        }${surah}${ayah}.mp3`;
+      }
+      return "";
+    },
+
     getdata(fetchurl, qh) {
       this.change = 1;
       fetch(fetchurl, {
@@ -134,23 +157,22 @@ export default {
   },
   watch: {
     reciter: function() {
-      this.options =[{ value: null, text: "Please select a reciter" },];
-      
-      for(var i=0; i<this.reciter.reciters_verse.length; i++){
-        if(this.reciter.reciters_verse[i].audio_url_bit_rate_64 != ""){
-        var tempOption ={value: i, text :`${this.reciter.reciters_verse[i].name}` };
-        this.options.push(tempOption);
+      this.options = [{ value: null, text: "Please select a reciter" }];
+
+      for (var i = 0; i < this.reciter.reciters_verse.length; i++) {
+        if (this.reciter.reciters_verse[i].audio_url_bit_rate_64 != "") {
+          var tempOption = {
+            value: i,
+            text: `${this.reciter.reciters_verse[i].name}`
+          };
+          this.options.push(tempOption);
         }
       }
-      
     }
   },
   mounted: function() {
     this.randomize();
-    this.getdata(
-      "http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json",
-      1
-    );
+    this.getdata("http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json", 1);
     // this.gethadith();
   }
 };
