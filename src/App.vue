@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-bind:style="{backgroundColor: `#${bgd}`}">
     <Header />
-    <b-row id="dispinfo">
+    <b-row id="dispinfo" v-if="info.data">
       <b-col
         id="surahname"
         class="mr-auto ml-auto"
@@ -45,10 +45,10 @@
         </b-col>
       </b-row>
 
-      <div>
+      <div v-if="info.data">
         <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
         <div class="mt-3">
-          <strong>{{ selected }}</strong>
+          <!-- <strong>{{ selected }}</strong> -->
         </div>
       </div>
 
@@ -64,6 +64,7 @@ import Header from "./components/Header.vue";
 import DataBox from "./components/DataBox.vue";
 import Player from "./components/Player.vue";
 import hadith from "./assets/en";
+import reciter from "./assets/verse_ar";
 export default {
   name: "App",
   components: {
@@ -81,7 +82,7 @@ export default {
       change: 0,
       qoh: false,
       hadith: hadith,
-      reciter: null,
+      reciter: reciter,
       selected_reciter: 1,
       options: []
     };
@@ -117,7 +118,7 @@ export default {
       //https://verse.mp3quran.net/arabic/shaik_abu_baker_alshatri/64/001002.mp3
       if (this.selected_reciter != null) {
         var surah = this.parseNum(this.currentSurah);
-        var ayah = this.parseNum(this.index +1);
+        var ayah = this.parseNum(this.index + 1);
         return `${
           this.reciter.reciters_verse[this.selected_reciter]
             .audio_url_bit_rate_64
@@ -125,8 +126,10 @@ export default {
       }
       return "";
     },
-    parseName(name){
-      return name.substring(name.indexOf("/arabic/")+8, name.indexOf("/64/")).replace('_'," ");
+    parseName(name) {
+      return name
+        .substring(name.indexOf("/arabic/") + 8, name.indexOf("/64/"))
+        .replace(/_/g, ' ');
     },
 
     getdata(fetchurl, qh) {
@@ -155,30 +158,34 @@ export default {
     },
     bg() {
       return this.bgd();
-    }
-  },
-  watch: {
-    reciter: function() {
+    },
+    reciter_option() {
       this.options = [{ value: null, text: "Please select a reciter" }];
 
       for (var i = 0; i < this.reciter.reciters_verse.length; i++) {
         if (this.reciter.reciters_verse[i].audio_url_bit_rate_64 != "") {
           var tempOption = {
             value: i,
-            text: `${this.parseName(this.reciter.reciters_verse[i].audio_url_bit_rate_64)}`
+            text: `${this.parseName(
+              this.reciter.reciters_verse[i].audio_url_bit_rate_64
+            )}`
           };
-          this.options.push(tempOption);
+          if (tempOption.text != "0") {
+            this.options.push(tempOption);
+          }
         }
       }
     }
   },
+  watch: {},
   mounted: function() {
     this.randomize();
+    this.reciter_option();
     // this.getdata(
     //   "http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json",
     //   1
     // ); //local dev
-    this.getdata("http://api.mp3quran.net/verse/verse_ar.json", 1);
+    // this.getdata("http://api.mp3quran.net/verse/verse_ar.json", 1);
   }
 };
 </script>
