@@ -48,7 +48,6 @@
       <div>
         <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
         <div class="mt-3">
-          Selected:
           <strong>{{ selected }}</strong>
         </div>
       </div>
@@ -96,10 +95,10 @@ export default {
     },
     randomize() {
       this.currentSurah = this.randomint(0, 114);
-      //var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
-      this.currentSurah = 2; //for local test
-      this.getdata("http://localhost:5001/pay/2", 0);
-      // this.getdata(fetchurl, 0);
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      // this.currentSurah = 2; //for local test
+      // this.getdata("http://localhost:5001/pay/2", 0);
+      this.getdata(fetchurl, 0);
     },
     parseNum(num) {
       if (num / 10 < 1) {
@@ -118,7 +117,7 @@ export default {
       //https://verse.mp3quran.net/arabic/shaik_abu_baker_alshatri/64/001002.mp3
       if (this.selected_reciter != null) {
         var surah = this.parseNum(this.currentSurah);
-        var ayah = this.parseNum(this.index);
+        var ayah = this.parseNum(this.index +1);
         return `${
           this.reciter.reciters_verse[this.selected_reciter]
             .audio_url_bit_rate_64
@@ -172,8 +171,11 @@ export default {
   },
   mounted: function() {
     this.randomize();
-    this.getdata("http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json", 1);
-    // this.gethadith();
+    // this.getdata(
+    //   "http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json",
+    //   1
+    // ); //local dev
+    this.getdata("http://api.mp3quran.net/verse/verse_ar.json", 1);
   }
 };
 </script>
