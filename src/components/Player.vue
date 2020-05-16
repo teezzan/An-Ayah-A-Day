@@ -34,7 +34,7 @@ export default {
         }
       } else {
         this.$refs.audplay.pause();
-        this.playOrPause = "Play";
+        this.playOrPause = "Continue";
       }
     },
     audioFinished() {
