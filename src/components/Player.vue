@@ -3,7 +3,7 @@
     <b-col cols="6" align-self="end" class="player">
       <b-button variant="primary" class="p10" @click="pause">{{playOrPause}}</b-button>
       <!-- <input type="checkbox" id="checkbox" v-model="cont">Continous mode. -->
-      <audio controls ref="audplay" style="display: none">
+      <audio @ended="audioFinished()" ref="audplay" style="display: none">
         <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
       </audio>
       <br />
@@ -17,7 +17,7 @@ export default {
     return {
       aud: this.audioUrl,
       cont: false,
-      playOrPause: "Pause/Play"
+      playOrPause: "Play"
     };
   },
   props: {
@@ -29,13 +29,16 @@ export default {
     pause() {
       if (this.$refs.audplay.paused) {
         this.$refs.audplay.play();
-        if (this.$refs.audplay.duration > 0){
-          this.playOrPause = "Pause/Paste"; 
-       }
+        if (this.$refs.audplay.duration > 0) {
+          this.playOrPause = "Pause";
+        }
       } else {
         this.$refs.audplay.pause();
-        this.playOrPause = "Pause/Play";
+        this.playOrPause = "Play";
       }
+    },
+    audioFinished() {
+      this.playOrPause = "Play";
     },
     update() {
       (this.$refs.audplay.src = this.audioUrl), this.$refs.audplay.play();
