@@ -1,7 +1,7 @@
 <template>
-  <div id="app" v-bind:style="{backgroundColor: `#${bgd}`}">
+  <div id="app">
     <Header />
-    <b-row id="dispinfo" v-if="info.data">
+    <!-- <b-row id="dispinfo" v-if="info.data">
       <b-col
         id="surahname"
         class="mr-auto ml-auto"
@@ -10,11 +10,6 @@
       >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
 
       <b-col class="mr-auto ml-auto" sm="4">
-        <!-- <span>Hadith</span>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="customSwitch1" v-model="qoh" />
-          <label class="custom-control-label" for="customSwitch1">Quran</label>
-        </div>-->
         <label class="switch">
           <input type="checkbox" id="togBtn" v-model="qoh" />
           <div class="slider round">
@@ -27,10 +22,10 @@
       <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
         <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
       </b-col>
-    </b-row>
-    <b-container id="extcon" class="bv-example-row">
+    </b-row>-->
+    <b-container id="extcon">
       <b-row id="outter">
-        <b-col class="mr-auto ml-auto my-auto" sm="8" offset="2">
+        <b-col class="mr-auto ml-auto my-auto" sm="9" offset="1">
           <DataBox
             v-if="info.data"
             :inputdataEn="info.data[0].ayahs[index]"
@@ -45,16 +40,24 @@
         </b-col>
       </b-row>
 
-      <div v-if="info.data">
-        <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
-        <div class="mt-3">
-          <!-- <strong>{{ selected }}</strong> -->
-        </div>
-      </div>
-
-      <Player v-if="info.data" :audioUrl="audioLink()" :next="next" :qoh="this.qoh" />
-
       <!-- list the reciters -->
+
+      <b-modal ref="my-modal" hide-footer title="Edit Task">
+        <div id="modalV">
+          <b-row>
+            <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
+              <div v-if="info.data">
+                <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
+                <div class="mt-3"></div>
+              </div>
+              <input type="checkbox" v-model="checTemp" id="autoplay1" style="font-size:20px" />
+              
+            </b-col>
+          </b-row>
+        </div>
+      </b-modal>
+      <b-button variant="primary" class="p10 mx-6" @click="showModal">Options</b-button>
+     <Player v-if="info.data" :audioUrl="audioLink()" :next="next" :qoh="this.qoh" :checTemp="checTemp" />
     </b-container>
   </div>
 </template>
@@ -84,7 +87,8 @@ export default {
       hadith: hadith,
       reciter: reciter,
       selected_reciter: 37,
-      options: []
+      options: [],
+      checTemp: false
     };
   },
   methods: {
@@ -179,7 +183,14 @@ export default {
           }
         }
       }
-    }
+    },
+
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    cancelModal() {
+      this.$refs["my-modal"].hide();
+    },
   },
   watch: {},
   mounted: function() {
@@ -191,11 +202,24 @@ export default {
         this.selected_reciter = localStorage.choice_of_reciter;
       }
     }
-    // this.getdata(
-    //   "http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json",
-    //   1
-    // ); //local dev
-    // this.getdata("http://api.mp3quran.net/verse/verse_ar.json", 1);
+
+    var Trianglify = require("trianglify");
+    var pattern = Trianglify({
+      height: 1000,
+      width: 3000,
+      cell_size: this.randomint(70, 700)
+    }).svg({ includeNamespace: true });
+
+    // Take Trianglify SVG pattern and serialize it into XML string
+    var patternString = new XMLSerializer().serializeToString(pattern);
+
+    // URL encode the pattern and set into the proper format for SVG background
+    var patternMin =
+      'url("data:image/svg+xml,' + encodeURIComponent(patternString) + '")';
+
+    // document.getElementById("background").style.backgroundImage = patternMin;
+
+    document.body.style.backgroundImage = patternMin;
   }
 };
 </script>
@@ -213,18 +237,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #ffffff;
-  /* background-color: rgb(34, 53, 89); */
-  margin-top: 60px;
-  /* background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
-  background-size: cover; */
+  margin-top: 2%;
+  width: 100%;
 }
 #tee {
   margin-top: 100px;
 }
-#dispinfo {
+#dispinfo, #modalV {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   font-size: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 2%;
+  margin-left: 5%;
   color: rgba(253, 253, 253, 0.6);
   background-color: rgba(0, 0, 0, 0.6);
 }

@@ -1,14 +1,11 @@
 <template>
   <b-row align-h="center" v-show="!qoh">
     <b-col cols="6" align-self="end" class="player">
-      <b-button variant="primary" class="p10" @click="pause">{{playOrPause}}</b-button>
-      <br />
-      <br />
-      <div style="color:blue;font-weight:bold;font-size:18px">
-        <input @click="toggleAutoplay()" type="checkbox" id="autoplay" style="font-size:20px" />
+      <b-button variant="primary" class="p10 mx-6" @click="pause">{{playOrPause}}</b-button>
+      <!-- <div style="color:blue;font-weight:bold;font-size:18px"> -->
+        <input @click="toggleAutoplay()" type="checkbox" v-model="checTemp" id="autoplay" style="font-size:20px" />
         Autoplay
-      </div>
-      <!-- <input type="checkbox" id="checkbox" v-model="cont">Continous mode. -->
+      <!-- </div> -->
       <audio @ended="audioFinished()" ref="audplay" style="display: none">
         <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
       </audio>
@@ -22,14 +19,15 @@ export default {
   data() {
     return {
       aud: this.audioUrl,
-      cont: false,
-      playOrPause: "Play"
+      playOrPause: "Play",
+      chec: true
     };
   },
   props: {
     audioUrl: String,
     next: Function,
-    qoh: Boolean
+    qoh: Boolean,
+    checTemp: Boolean
   },
   methods: {
     pause() {
@@ -82,13 +80,12 @@ export default {
         this.$refs.audplay.src = this.audioUrl;
         this.$refs.audplay.pause();
         this.$refs.audplay.play();
-        if (this.cont) {
-          // setTimeout(() => {
-          //   // this.next();
-          //   alert("hiiii")
-          // } ,1000)//(this.$refs.audplay.duration * 1000) + 1500);
-        }
+       
       }
+    },
+    checTemp: function() {
+      this.chec = this.checTemp;
+      this.toggleAutoplay();
     }
   },
   mounted() {}
@@ -98,6 +95,6 @@ export default {
 <style scoped>
 .player {
   margin-top: -10px;
-  margin-bottom: 180px;
+  margin-bottom: 5px;
 }
 </style>
