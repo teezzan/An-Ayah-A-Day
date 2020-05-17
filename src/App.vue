@@ -44,49 +44,56 @@
 
       <b-modal ref="my-modal" hide-footer title="Edit Task">
         <div id="modalV">
-           <b-row id="dispinfo" v-if="info.data">
-      <b-col
-        id="surahname"
-        class="mr-auto ml-auto"
-        sm="4"
-        v-if="!qoh"
-      >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
+          <b-row id="dispinfo" v-if="info.data">
+            <b-col
+              id="surahname"
+              class="mr-auto ml-auto"
+              sm="4"
+              v-if="!qoh"
+            >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
 
-      <b-col class="mr-auto ml-auto" sm="4">
-        <label class="switch">
-          <input type="checkbox" id="togBtn" v-model="qoh" />
-          <div class="slider round">
-            <span class="on">Hadith</span>
-            <span class="off">Quran</span>
-          </div>
-        </label>
-      </b-col>
+            <b-col class="mr-auto ml-auto" sm="4">
+              <label class="switch">
+                <input type="checkbox" id="togBtn" v-model="qoh" />
+                <div class="slider round">
+                  <span class="on">Hadith</span>
+                  <span class="off">Quran</span>
+                </div>
+              </label>
+            </b-col>
 
-      <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
-        <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
-      </b-col>
-    </b-row>
+            <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
+              <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
+            </b-col>
+          </b-row>
 
-    <!-- Reciter and Continous -->
+          <!-- Reciter and Continous -->
           <b-row>
             <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
               <div v-if="info.data">
                 <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
                 <div class="mt-3"></div>
-              
-              <input type="checkbox" v-model="checTemp"  style="font-size:20px" />
-              Continous
+
+                <input type="checkbox" v-model="checTemp" style="font-size:20px" />
+                Continous
               </div>
             </b-col>
           </b-row>
-
         </div>
       </b-modal>
       <b-row>
         <b-col>
-      <b-button variant="primary" class="p10 mb-6" @click="showModal">Options</b-button>
-     <Player v-if="info.data" :audioUrl="audioLink()" :next="next" :qoh="this.qoh" :checTemp="checTemp" />
-        </b-col></b-row>
+          <b-button variant="primary" class="p10 mb-6" @click="showModal">Options</b-button>
+          <Player
+            v-if="info.data"
+            :audioUrl="audioLink()"
+            :next="next"
+            :qoh="this.qoh"
+            :checTemp="checTemp"
+          />
+        </b-col>
+      </b-row>
+      <b-button variant="primary" class="p10 mb-6" @click="draw" v-show="false">save</b-button>
     </b-container>
   </div>
 </template>
@@ -97,6 +104,7 @@ import DataBox from "./components/DataBox.vue";
 import Player from "./components/Player.vue";
 import hadith from "./assets/en";
 import reciter from "./assets/verse_ar";
+var FileSaver = require("file-saver");
 export default {
   name: "App",
   components: {
@@ -220,6 +228,24 @@ export default {
     cancelModal() {
       this.$refs["my-modal"].hide();
     },
+    draw() {
+      const Jimp = require("jimp");
+      async function resize() {
+        // Read the image.
+        const image = await Jimp.read(
+          "https://images.pexels.com/photos/298842/pexels-photo-298842.jpeg"
+        );
+        // Resize the image to width 150 and heigth 150.
+        // await image.resize(150, 150);
+
+        await image.getBase64(Jimp.MIME_PNG, (err, blob) => {
+           FileSaver.saveAs(blob, "hellworld.png"); 
+        });
+        
+        
+      }
+      resize();
+    }
   },
   watch: {},
   mounted: function() {
@@ -272,7 +298,8 @@ export default {
 #tee {
   margin-top: 100px;
 }
-#dispinfo, #modalV {
+#dispinfo,
+#modalV {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   font-size: 20px;
   margin-bottom: 2%;
