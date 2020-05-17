@@ -120,7 +120,7 @@ export default {
   color: rgb(194, 186, 186);
 }
 #bgb {
-  margin-bottom: 50px;
+  margin-bottom: 35px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 7px;
   height: auto;

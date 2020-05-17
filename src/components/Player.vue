@@ -3,8 +3,8 @@
     <b-col cols="6" align-self="end" class="player">
       <b-button variant="primary" class="p10 mx-6" @click="pause">{{playOrPause}}</b-button>
       <!-- <div style="color:blue;font-weight:bold;font-size:18px"> -->
-        <input @click="toggleAutoplay()" type="checkbox" v-model="checTemp" id="autoplay" style="font-size:20px" />
-        Autoplay
+        <input @click="toggleAutoplay(chec)" type="checkbox" v-model="chec" id="autoplay" style="font-size:20px" v-show="false" />
+        <!-- Autoplay -->
       <!-- </div> -->
       <audio @ended="audioFinished()" ref="audplay" style="display: none">
         <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
@@ -20,7 +20,7 @@ export default {
     return {
       aud: this.audioUrl,
       playOrPause: "Play",
-      chec: true
+      chec: false
     };
   },
   props: {
@@ -50,9 +50,9 @@ export default {
         }
       }
     },
-    toggleAutoplay() {
-      var autoplay = document.getElementById("autoplay");
-      if (autoplay.checked == true) {
+    toggleAutoplay(chec) {
+      // var autoplay = document.getElementById("autoplay");
+      if (chec == true) {
         if (typeof Storage !== "undefined") {
           sessionStorage.setItem("choice_of_autoplay", "autoplay");
           this.$refs.audplay.play();
@@ -85,7 +85,7 @@ export default {
     },
     checTemp: function() {
       this.chec = this.checTemp;
-      this.toggleAutoplay();
+      this.toggleAutoplay(this.chec);
     }
   },
   mounted() {}
@@ -94,7 +94,7 @@ export default {
 
 <style scoped>
 .player {
-  margin-top: -10px;
-  margin-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 </style>
