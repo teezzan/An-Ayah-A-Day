@@ -119,10 +119,10 @@ export default {
     },
     randomize() {
       this.currentSurah = this.randomint(0, 114);
-      //var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
-      this.currentSurah = 2; //for local test
-      this.getdata("http://localhost:5001/pay/2", 0);
-      //this.getdata(fetchurl, 0);
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      // this.currentSurah = 2; //for local test
+      // this.getdata("http://localhost:5001/pay/2", 0);
+      this.getdata(fetchurl, 0);
     },
     parseNum(num) {
       if (num / 10 < 1) {
