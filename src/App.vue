@@ -306,7 +306,7 @@ export default {
   margin-bottom: 2%;
   margin-left: 5%;
   color: rgba(0, 0, 0, 0.6);
-  background-color: rgba(255, 255, 255, 0.884);
+  background-color: rgba(255, 255, 255, 0.5884);
 }
 #dispinfo:hover {
   background-color: rgba(0, 0, 0, 0.8);
@@ -327,6 +327,9 @@ export default {
 #ayahindexin:hover {
   background-color: rgba(0, 0, 0, 0.8);
   color: rgba(253, 253, 253);
+}
+.modal-body {
+  background-color: rgba(255, 255, 255, 0.493);
 }
 
 .switch {
