@@ -1,28 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <!-- <b-row id="dispinfo" v-if="info.data">
-      <b-col
-        id="surahname"
-        class="mr-auto ml-auto"
-        sm="4"
-        v-if="!qoh"
-      >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
 
-      <b-col class="mr-auto ml-auto" sm="4">
-        <label class="switch">
-          <input type="checkbox" id="togBtn" v-model="qoh" />
-          <div class="slider round">
-            <span class="on">Hadith</span>
-            <span class="off">Quran</span>
-          </div>
-        </label>
-      </b-col>
-
-      <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
-        <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
-      </b-col>
-    </b-row>-->
     <b-container id="extcon">
       <b-row id="outter">
         <b-col class="mr-auto ml-auto my-auto" sm="9" offset="1">
@@ -42,29 +21,17 @@
 
       <!-- list the reciters -->
 
-      <b-modal ref="my-modal" hide-footer title="Edit Task">
+      <b-modal ref="my-modal" hide-footer title="Options">
         <div id="modalV">
-          <b-row id="dispinfo" v-if="info.data">
-            <b-col
-              id="surahname"
-              class="mr-auto ml-auto"
-              sm="4"
-              v-if="!qoh"
-            >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
+          <div v-if="!qoh" id="surahName"> {{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})
 
-            <b-col class="mr-auto ml-auto" sm="4">
-              <label class="switch">
-                <input type="checkbox" id="togBtn" v-model="qoh" />
-                <div class="slider round">
-                  <span class="on">Hadith</span>
-                  <span class="off">Quran</span>
-                </div>
-              </label>
-            </b-col>
+            </div>
 
-            <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
-              <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
+          <b-row v-if="info.data">
+            <b-col class="mr-auto ml-auto" v-if="!qoh">
+              <b-input v-model="index" :value="index" class="ml-sm-auto"></b-input>
             </b-col>
+            
           </b-row>
 
           <!-- Reciter and Continous -->
@@ -74,13 +41,27 @@
                 <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
                 <div class="mt-3"></div>
 
-                <input type="checkbox" v-model="checTemp" style="font-size:20px" />
+                <input type="checkbox" v-model="checTemp" style="font-size:20px" id="ckbx" />
                 Continous
               </div>
             </b-col>
           </b-row>
         </div>
+
+      <div class="mr-auto ml-auto" sm="4" id="switch">
+              <label class="switch">
+                <input type="checkbox" id="togBtn" v-model="qoh" />
+                <div class="slider round">
+                  <span class="on">  Hadith  </span>
+                  <span class="off">  Quran  </span>
+                </div>
+              </label>
+              <b-button variant="primary" class="p10" @click="draw" v-show="true">Save and Share</b-button>
+            </div>
+
       </b-modal>
+
+
       <b-row>
         <b-col>
           <b-button variant="primary" class="p10 mb-6" @click="showModal">Options</b-button>
@@ -93,7 +74,7 @@
           />
         </b-col>
       </b-row>
-      <b-button variant="primary" class="p10 mb-6" @click="draw" v-show="false">save</b-button>
+      
     </b-container>
   </div>
 </template>
@@ -105,6 +86,7 @@ import Player from "./components/Player.vue";
 import hadith from "./assets/en";
 import reciter from "./assets/verse_ar";
 var FileSaver = require("file-saver");
+const Jimp = require("jimp");
 export default {
   name: "App",
   components: {
@@ -137,10 +119,10 @@ export default {
     },
     randomize() {
       this.currentSurah = this.randomint(0, 114);
-      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
-      // this.currentSurah = 2; //for local test
-      // this.getdata("http://localhost:5001/pay/2", 0);
-      this.getdata(fetchurl, 0);
+      //var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      this.currentSurah = 2; //for local test
+      this.getdata("http://localhost:5001/pay/2", 0);
+      //this.getdata(fetchurl, 0);
     },
     parseNum(num) {
       if (num / 10 < 1) {
@@ -229,22 +211,41 @@ export default {
       this.$refs["my-modal"].hide();
     },
     draw() {
-      const Jimp = require("jimp");
-      async function resize() {
-        // Read the image.
+      async function textOverlay() {
+        const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+        const image = await Jimp.read(1000, 1000, 0x0000ffff);
+
+        image.print(font, 10, 10, "Hello World!");
+        image.getBase64(Jimp.MIME_PNG, (err, blob) => {
+          FileSaver.saveAs(blob, "inlayworld.png");
+        });
+      }
+
+      textOverlay();
+    },
+    write() {
+      async function waterMark(waterMarkImage) {
+        let watermark = await Jimp.read(waterMarkImage);
+        watermark = watermark.resize(300, 300);
         const image = await Jimp.read(
           "https://images.pexels.com/photos/298842/pexels-photo-298842.jpeg"
         );
-        // Resize the image to width 150 and heigth 150.
-        // await image.resize(150, 150);
-
-        await image.getBase64(Jimp.MIME_PNG, (err, blob) => {
-           FileSaver.saveAs(blob, "hellworld.png"); 
-        });
-        
-        
+        watermark = await watermark;
+        image
+          .composite(watermark, 0, 0, {
+            mode: Jimp.BLEND_SOURCE_OVER,
+            opacityDest: 1,
+            opacitySource: 0.5
+          })
+          .then(
+            image.getBase64(Jimp.MIME_PNG, (err, blob) => {
+              FileSaver.saveAs(blob, "inlayworld.png");
+            })
+          );
       }
-      resize();
+      waterMark(
+        "https://cdn-images-1.medium.com/fit/c/152/152/1*8I-HPL0bfoIzGied-dzOvA.png"
+      );
     }
   },
   watch: {},
@@ -304,8 +305,8 @@ export default {
   font-size: 20px;
   margin-bottom: 2%;
   margin-left: 5%;
-  color: rgba(253, 253, 253, 0.6);
-  background-color: rgba(0, 0, 0, 0.6);
+  color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(255, 255, 255, 0.884);
 }
 #dispinfo:hover {
   background-color: rgba(0, 0, 0, 0.8);
@@ -407,5 +408,8 @@ input:checked + .slider .off {
 
 .slider.round:before {
   border-radius: 50%;
+}
+#ckbx, #switch {
+  align-self: center;
 }
 </style>
