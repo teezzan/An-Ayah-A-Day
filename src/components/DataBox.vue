@@ -60,10 +60,12 @@ export default {
   },
   methods: {
     fonty(inp) {
-      if (inp.length < 170) {
-        return `21px`;
+      if (inp.length > 240) {
+        return `15px`;
+      }else if(inp.length < 170){
+        return `17px`;
       }
-      return `17px`;
+      return `20px`;
       //
     },
     rand(i) {
@@ -93,16 +95,6 @@ export default {
 </script>
 
 <style scoped>
-/* @font-face { */
-/* font-family: 'Uthmanic';
-src:  */
-/* url('/../assets/font/Uthmanic.woff2') format('woff2'),
-url('/../assets/fonts/Uthmanic.woff') format('woff'), */
-/* url('/../assets/fonts/Amiri-Italic.ttf') format('truetype');
-font-style: normal; */
-/* font-weight: 400; */
-/* } */
-
 #en,
 #ar {
   margin-bottom: 10px;
@@ -128,10 +120,11 @@ font-style: normal; */
   color: rgb(194, 186, 186);
 }
 #bgb {
-  margin-bottom: 50px;
+  margin-bottom: 35px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 7px;
   height: auto;
+  width: auto;
 }
 #bgb:hover {
   background-color: rgba(0, 0, 0, 0.85);

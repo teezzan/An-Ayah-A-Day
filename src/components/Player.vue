@@ -1,9 +1,12 @@
 <template>
   <b-row align-h="center" v-show="!qoh">
     <b-col cols="6" align-self="end" class="player">
-      <b-button variant="primary" class="p10" @click="pause">{{playOrPause}}</b-button>
-      <!-- <input type="checkbox" id="checkbox" v-model="cont">Continous mode. -->
-      <audio controls ref="audplay" style="display: none">
+      <b-button variant="primary" class="p10 mx-6" @click="pause">{{playOrPause}}</b-button>
+      <!-- <div style="color:blue;font-weight:bold;font-size:18px"> -->
+        <input @click="toggleAutoplay(chec)" type="checkbox" v-model="chec" id="autoplay" style="font-size:20px" v-show="false" />
+        <!-- Autoplay -->
+      <!-- </div> -->
+      <audio @ended="audioFinished()" ref="audplay" style="display: none">
         <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
       </audio>
       <br />
@@ -16,27 +19,51 @@ export default {
   data() {
     return {
       aud: this.audioUrl,
-      cont: false,
-      playOrPause: "Pause/Play"
+      playOrPause: "Play",
+      chec: false
     };
   },
   props: {
     audioUrl: String,
     next: Function,
-    qoh: Boolean
+    qoh: Boolean,
+    checTemp: Boolean
   },
   methods: {
     pause() {
       if (this.$refs.audplay.paused) {
         this.$refs.audplay.play();
-        if (this.$refs.audplay.duration > 0){
-          this.playOrPause = "Pause/Paste"; 
-       }
+        if (this.$refs.audplay.duration > 0) {
+          this.playOrPause = "Pause";
+        }
       } else {
         this.$refs.audplay.pause();
-        this.playOrPause = "Pause/Play";
+        this.playOrPause = "Continue";
       }
     },
+    audioFinished() {
+      this.playOrPause = "Play";
+      if (typeof Storage !== "undefined") {
+        if (sessionStorage.choice_of_autoplay) {
+          this.next();
+          this.$refs.audplay.play();
+        }
+      }
+    },
+    toggleAutoplay(chec) {
+      // var autoplay = document.getElementById("autoplay");
+      if (chec == true) {
+        if (typeof Storage !== "undefined") {
+          sessionStorage.setItem("choice_of_autoplay", "autoplay");
+          this.$refs.audplay.play();
+        } else {
+          alert("Not supported by your browser");
+        }
+      } else {
+        sessionStorage.removeItem("choice_of_autoplay");
+      }
+    },
+
     update() {
       (this.$refs.audplay.src = this.audioUrl), this.$refs.audplay.play();
       return this.audioUrl;
@@ -53,21 +80,21 @@ export default {
         this.$refs.audplay.src = this.audioUrl;
         this.$refs.audplay.pause();
         this.$refs.audplay.play();
-        if (this.cont) {
-          // setTimeout(() => {
-          //   // this.next();
-          //   alert("hiiii")
-          // } ,1000)//(this.$refs.audplay.duration * 1000) + 1500);
-        }
+       
       }
+    },
+    checTemp: function() {
+      this.chec = this.checTemp;
+      this.toggleAutoplay(this.chec);
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
 <style scoped>
 .player {
-  margin-top: -10px;
-  margin-bottom: 180px;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 </style>

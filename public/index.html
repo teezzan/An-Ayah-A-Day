@@ -7,13 +7,17 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
     <style>
-      body {
-        /* background-color: red; */
-        background: url("https://source.unsplash.com/random/2048x900/?woods,seas")
-          no-repeat center center;
-        background-size: cover;
-        /*animation*/
+      html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
       }
+       body {
+        background: url("")
+           no-repeat center center;
+        background-size: cover; 
+        margin:0
+      } 
 
       .pic-wrapper {
         position: absolute;
@@ -221,16 +225,8 @@
         continue.</strong
       >
     </noscript>
-    <!-- <div class="pic-wrapper">
-    <figure class="pic-1"></figure>
-    <figure class="pic-2"></figure>
-    <figure class="pic-3"></figure>
-    <figure class="pic-4"></figure>
-  </div> -->
     <div id="app"></div>
-    <!-- <b-container id="app" > -->
-
-    <!-- </b-container> -->
+    <!-- <b-container id="app" ></b-container> -->
     <!-- built files will be auto injected -->
   </body>
 </html>

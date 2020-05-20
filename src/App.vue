@@ -1,36 +1,10 @@
 <template>
-  <div id="app" v-bind:style="{backgroundColor: `#${bgd}`}">
+  <div id="app">
     <Header />
-    <b-row id="dispinfo" v-if="info.data">
-      <b-col
-        id="surahname"
-        class="mr-auto ml-auto"
-        sm="4"
-        v-if="!qoh"
-      >{{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})</b-col>
 
-      <b-col class="mr-auto ml-auto" sm="4">
-        <!-- <span>Hadith</span>
-        <div class="custom-control custom-switch">
-          <input type="checkbox" class="custom-control-input" id="customSwitch1" v-model="qoh" />
-          <label class="custom-control-label" for="customSwitch1">Quran</label>
-        </div>-->
-        <label class="switch">
-          <input type="checkbox" id="togBtn" v-model="qoh" />
-          <div class="slider round">
-            <span class="on">Hadith</span>
-            <span class="off">Quran</span>
-          </div>
-        </label>
-      </b-col>
-
-      <b-col id="ayahindex" class="mr-auto ml-auto" v-if="!qoh">
-        <b-input id="ayahindexin" v-model="index" :value="index" class="ml-sm-auto"></b-input>
-      </b-col>
-    </b-row>
-    <b-container id="extcon" class="bv-example-row">
+    <b-container id="extcon">
       <b-row id="outter">
-        <b-col class="mr-auto ml-auto my-auto" sm="8" offset="2">
+        <b-col class="mr-auto ml-auto my-auto" sm="9" offset="1">
           <DataBox
             v-if="info.data"
             :inputdataEn="info.data[0].ayahs[index]"
@@ -45,16 +19,62 @@
         </b-col>
       </b-row>
 
-      <div v-if="info.data">
-        <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
-        <div class="mt-3">
-          <!-- <strong>{{ selected }}</strong> -->
-        </div>
-      </div>
-
-      <Player v-if="info.data" :audioUrl="audioLink()" :next="next" :qoh="this.qoh" />
-
       <!-- list the reciters -->
+
+      <b-modal ref="my-modal" hide-footer title="Options">
+        <div id="modalV">
+          <div v-if="!qoh" id="surahName"> {{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})
+
+            </div>
+
+          <b-row v-if="info.data">
+            <b-col class="mr-auto ml-auto" v-if="!qoh">
+              <b-input v-model="index" :value="index" class="ml-sm-auto"></b-input>
+            </b-col>
+            
+          </b-row>
+
+          <!-- Reciter and Continous -->
+          <b-row>
+            <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
+              <div v-if="info.data">
+                <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
+                <div class="mt-3"></div>
+
+                <input type="checkbox" v-model="checTemp" style="font-size:20px" id="ckbx" />
+                Continous
+              </div>
+            </b-col>
+          </b-row>
+        </div>
+
+      <div class="mr-auto ml-auto" sm="4" id="switch">
+              <label class="switch">
+                <input type="checkbox" id="togBtn" v-model="qoh" />
+                <div class="slider round">
+                  <span class="on">  Hadith  </span>
+                  <span class="off">  Quran  </span>
+                </div>
+              </label>
+              <b-button variant="primary" class="p10" @click="draw" v-show="true">Save and Share</b-button>
+            </div>
+
+      </b-modal>
+
+
+      <b-row>
+        <b-col>
+          <b-button variant="primary" class="p10 mb-6" @click="showModal">Options</b-button>
+          <Player
+            v-if="info.data"
+            :audioUrl="audioLink()"
+            :next="next"
+            :qoh="this.qoh"
+            :checTemp="checTemp"
+          />
+        </b-col>
+      </b-row>
+      
     </b-container>
   </div>
 </template>
@@ -65,6 +85,8 @@ import DataBox from "./components/DataBox.vue";
 import Player from "./components/Player.vue";
 import hadith from "./assets/en";
 import reciter from "./assets/verse_ar";
+var FileSaver = require("file-saver");
+const Jimp = require("jimp");
 export default {
   name: "App",
   components: {
@@ -84,7 +106,8 @@ export default {
       hadith: hadith,
       reciter: reciter,
       selected_reciter: 37,
-      options: []
+      options: [],
+      checTemp: false
     };
   },
   methods: {
@@ -117,6 +140,10 @@ export default {
     audioLink() {
       //https://verse.mp3quran.net/arabic/shaik_abu_baker_alshatri/64/001002.mp3
       if (this.selected_reciter != null) {
+        if (typeof Storage !== "undefined") {
+          localStorage.setItem("choice_of_reciter", this.selected_reciter);
+        }
+
         var surah = this.parseNum(this.currentSurah);
         var ayah = this.parseNum(this.index + 1);
         return `${
@@ -129,7 +156,7 @@ export default {
     parseName(name) {
       return name
         .substring(name.indexOf("/arabic/") + 8, name.indexOf("/64/"))
-        .replace(/_/g, ' ');
+        .replace(/_/g, " ");
     },
 
     getdata(fetchurl, qh) {
@@ -160,7 +187,7 @@ export default {
       return this.bgd();
     },
     reciter_option() {
-      this.options = [{ value: null, text: "Please select a reciter" }];
+      this.options = [];
 
       for (var i = 0; i < this.reciter.reciters_verse.length; i++) {
         if (this.reciter.reciters_verse[i].audio_url_bit_rate_64 != "") {
@@ -175,17 +202,80 @@ export default {
           }
         }
       }
+    },
+
+    showModal() {
+      this.$refs["my-modal"].show();
+    },
+    cancelModal() {
+      this.$refs["my-modal"].hide();
+    },
+    draw() {
+      async function textOverlay() {
+        const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+        const image = await Jimp.read(1000, 1000, 0x0000ffff);
+
+        image.print(font, 10, 10, "Hello World!");
+        image.getBase64(Jimp.MIME_PNG, (err, blob) => {
+          FileSaver.saveAs(blob, "inlayworld.png");
+        });
+      }
+
+      textOverlay();
+    },
+    write() {
+      async function waterMark(waterMarkImage) {
+        let watermark = await Jimp.read(waterMarkImage);
+        watermark = watermark.resize(300, 300);
+        const image = await Jimp.read(
+          "https://images.pexels.com/photos/298842/pexels-photo-298842.jpeg"
+        );
+        watermark = await watermark;
+        image
+          .composite(watermark, 0, 0, {
+            mode: Jimp.BLEND_SOURCE_OVER,
+            opacityDest: 1,
+            opacitySource: 0.5
+          })
+          .then(
+            image.getBase64(Jimp.MIME_PNG, (err, blob) => {
+              FileSaver.saveAs(blob, "inlayworld.png");
+            })
+          );
+      }
+      waterMark(
+        "https://cdn-images-1.medium.com/fit/c/152/152/1*8I-HPL0bfoIzGied-dzOvA.png"
+      );
     }
   },
   watch: {},
   mounted: function() {
     this.randomize();
     this.reciter_option();
-    // this.getdata(
-    //   "http://localhost:5001/image/c9e2512e94b8439fb985d888ba450ed8.json",
-    //   1
-    // ); //local dev
-    // this.getdata("http://api.mp3quran.net/verse/verse_ar.json", 1);
+
+    if (typeof Storage !== "undefined") {
+      if (localStorage.choice_of_reciter) {
+        this.selected_reciter = localStorage.choice_of_reciter;
+      }
+    }
+
+    var Trianglify = require("trianglify");
+    var pattern = Trianglify({
+      height: 1000,
+      width: 3000,
+      cell_size: this.randomint(70, 700)
+    }).svg({ includeNamespace: true });
+
+    // Take Trianglify SVG pattern and serialize it into XML string
+    var patternString = new XMLSerializer().serializeToString(pattern);
+
+    // URL encode the pattern and set into the proper format for SVG background
+    var patternMin =
+      'url("data:image/svg+xml,' + encodeURIComponent(patternString) + '")';
+
+    // document.getElementById("background").style.backgroundImage = patternMin;
+
+    document.body.style.backgroundImage = patternMin;
   }
 };
 </script>
@@ -203,20 +293,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #ffffff;
-  /* background-color: rgb(34, 53, 89); */
-  margin-top: 60px;
-  /* background: url(http://localhost:5001/image/0194513bd3af713611be53a0a183505b.jpg) no-repeat center center;
-  background-size: cover; */
+  margin-top: 2%;
+  width: 100%;
 }
 #tee {
   margin-top: 100px;
 }
-#dispinfo {
+#dispinfo,
+#modalV {
   /* font-family: Avenir, Helvetica, Arial, sans-serif; */
   font-size: 20px;
-  margin-bottom: 18px;
-  color: rgba(253, 253, 253, 0.6);
-  background-color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 2%;
+  margin-left: 5%;
+  color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(255, 255, 255, 0.5884);
 }
 #dispinfo:hover {
   background-color: rgba(0, 0, 0, 0.8);
@@ -237,6 +327,9 @@ export default {
 #ayahindexin:hover {
   background-color: rgba(0, 0, 0, 0.8);
   color: rgba(253, 253, 253);
+}
+.modal-body {
+  background-color: rgba(255, 255, 255, 0.493);
 }
 
 .switch {
@@ -318,5 +411,8 @@ input:checked + .slider .off {
 
 .slider.round:before {
   border-radius: 50%;
+}
+#ckbx, #switch {
+  align-self: center;
 }
 </style>
