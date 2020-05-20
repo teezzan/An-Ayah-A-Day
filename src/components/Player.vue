@@ -1,13 +1,23 @@
 <template>
   <b-row align-h="center" v-show="!qoh">
     <b-col cols="6" align-self="end" class="player">
-      <b-button variant="primary" class="p10 mx-6" @click="pause">{{playOrPause}}</b-button>
+      <b-button variant="secondary" class="p10 mx-6" @click="pause">{{
+        playOrPause
+      }}</b-button>
       <!-- <div style="color:blue;font-weight:bold;font-size:18px"> -->
-        <input @click="toggleAutoplay(chec)" type="checkbox" v-model="chec" id="autoplay" style="font-size:20px" v-show="false" />
-        <!-- Autoplay -->
+      <input
+        @click="toggleAutoplay(chec)"
+        type="checkbox"
+        v-model="chec"
+        id="autoplay"
+        style="font-size:20px"
+        v-show="false"
+      />
+      <!-- Autoplay -->
       <!-- </div> -->
       <audio @ended="audioFinished()" ref="audplay" style="display: none">
-        <source :src="aud" type="audio/mpeg" />Your browser does not support the audio element.
+        <source :src="aud" type="audio/mpeg" />
+        Your browser does not support the audio element.
       </audio>
       <br />
     </b-col>
@@ -20,14 +30,14 @@ export default {
     return {
       aud: this.audioUrl,
       playOrPause: "Play",
-      chec: false
+      chec: false,
     };
   },
   props: {
     audioUrl: String,
     next: Function,
     qoh: Boolean,
-    checTemp: Boolean
+    checTemp: Boolean,
   },
   methods: {
     pause() {
@@ -67,7 +77,7 @@ export default {
     update() {
       (this.$refs.audplay.src = this.audioUrl), this.$refs.audplay.play();
       return this.audioUrl;
-    }
+    },
   },
   watch: {
     audioUrl: function() {
@@ -80,15 +90,18 @@ export default {
         this.$refs.audplay.src = this.audioUrl;
         this.$refs.audplay.pause();
         this.$refs.audplay.play();
-       
       }
     },
     checTemp: function() {
       this.chec = this.checTemp;
       this.toggleAutoplay(this.chec);
+    },
+  },
+  mounted() {
+    if (typeof Storage !== "undefined") {
+      sessionStorage.removeItem("choice_of_autoplay");
     }
   },
-  mounted() {}
 };
 </script>
 

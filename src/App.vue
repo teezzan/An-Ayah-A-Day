@@ -3,68 +3,22 @@
     <Header />
 
     <b-container id="extcon">
-      <b-row id="outter">
-        <b-col class="mr-auto ml-auto my-auto" sm="9" offset="1">
-          <DataBox
-            v-if="info.data"
-            :inputdataEn="info.data[0].ayahs[index]"
-            :inputdataAr="info.data[1].ayahs[index]"
-            :numberOfAyahs="this.numberOfAyahs"
-            :change="this.change"
-            :next="next"
-            :randomize="randomize"
-            :qoh="this.qoh"
-            :hadith="this.hadith.AllChapters"
-          />
-        </b-col>
-      </b-row>
-
-      <!-- list the reciters -->
-
-      <b-modal ref="my-modal" hide-footer title="Options">
-        <div id="modalV">
-          <div v-if="!qoh" id="surahName"> {{info.data[0].number}}. {{info.data[0].englishName}} ({{info.data[0].englishNameTranslation}})
-
-            </div>
-
-          <b-row v-if="info.data">
-            <b-col class="mr-auto ml-auto" v-if="!qoh">
-              <b-input v-model="index" :value="index" class="ml-sm-auto"></b-input>
-            </b-col>
-            
-          </b-row>
-
-          <!-- Reciter and Continous -->
-          <b-row>
-            <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
-              <div v-if="info.data">
-                <b-form-select v-model="selected_reciter" :options="options"></b-form-select>
-                <div class="mt-3"></div>
-
-                <input type="checkbox" v-model="checTemp" style="font-size:20px" id="ckbx" />
-                Continous
-              </div>
-            </b-col>
-          </b-row>
-        </div>
-
       <div class="mr-auto ml-auto" sm="4" id="switch">
-              <label class="switch">
-                <input type="checkbox" id="togBtn" v-model="qoh" />
-                <div class="slider round">
-                  <span class="on">  Hadith  </span>
-                  <span class="off">  Quran  </span>
-                </div>
-              </label>
-              <b-button variant="primary" class="p10" @click="draw" v-show="true">Save and Share</b-button>
-            </div>
-
-      </b-modal>
-
-
-      <b-row>
+        <label class="switch mt-2">
+          <input type="checkbox" id="togBtn" v-model="qoh" />
+          <div class="slider round">
+            <span class="on"> Hadith </span>
+            <span class="off"> Quran </span>
+          </div>
+        </label>
+      </div>
+      <!-- <div> -->
+      <b-row align-h="center" v-if="!qoh">
         <b-col>
-          <b-button variant="primary" class="p10 mb-6" @click="showModal">Options</b-button>
+          <b-button variant="secondary" @click="showModal">Options</b-button>
+        </b-col>
+
+        <b-col>
           <Player
             v-if="info.data"
             :audioUrl="audioLink()"
@@ -74,7 +28,93 @@
           />
         </b-col>
       </b-row>
-      
+      <div class="mt-1"></div>
+
+      <!-- </div> -->
+      <b-row id="outter">
+        <b-col class="m-auto my-auto" sm="9">
+          <DataBox
+            v-if="info.data"
+            :index="index"
+            :info_arr="info.data"
+            :inputdataEn="info.data[0].ayahs[index]"
+            :inputdataAr="info.data[1].ayahs[index]"
+            :numberOfAyahs="this.numberOfAyahs"
+            :change="this.change"
+            :next="next"
+            :prev="prev"
+            :randomize="randomize"
+            :qoh="this.qoh"
+            :hadith="this.hadith.AllChapters"
+          />
+        </b-col>
+      </b-row>
+
+      <!-- list the reciters -->
+
+      <b-modal ref="my-modal" hide-footer>
+        <div id="modalV">
+          <div v-if="!qoh" id="surahName">
+            {{ info.data[0].number }}. {{ info.data[0].englishName }} ({{
+              info.data[0].englishNameTranslation
+            }})
+            <small>Verse {{ index }}</small>
+          </div>
+          <div class="mt-3"></div>
+
+          <b-row v-if="info.data">
+            <b-col class="mr-auto ml-auto" v-if="!qoh">
+              <label for="ayah" class="mb-0">Jump to verse</label>
+              <b-input
+                v-model.number="index"
+                type="number"
+                class="ml-sm-auto"
+                id="ayah"
+              ></b-input>
+              <div class="mt-3"></div>
+            </b-col>
+          </b-row>
+
+          <!-- Reciter and Continous -->
+          <b-row>
+            <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
+              <div v-if="info.data">
+                <label for="reciter" class="mb-0">Change reciter</label>
+                <b-form-select
+                  v-model="selected_reciter"
+                  id="reciter"
+                  :options="options"
+                ></b-form-select>
+                <div class="mt-3"></div>
+                <input
+                  type="checkbox"
+                  v-model="checTemp"
+                  style="font-size:20px"
+                  id="ckbx"
+                />
+                Continuous autoplay
+              </div>
+            </b-col>
+          </b-row>
+        </div>
+
+        <div class="mr-auto ml-auto text-center" sm="4" id="switch">
+          <!-- <label class="switch">
+            <input type="checkbox" id="togBtn" v-model="qoh" />
+            <div class="slider round">
+              <span class="on"> Hadith </span>
+              <span class="off"> Quran </span>
+            </div>
+          </label> -->
+          <b-button
+            variant="secondary"
+            class="p10 mt-4"
+            @click="draw"
+            v-show="true"
+            >Save and Share</b-button
+          >
+        </div>
+      </b-modal>
     </b-container>
   </div>
 </template>
@@ -92,7 +132,7 @@ export default {
   components: {
     Header,
     DataBox,
-    Player
+    Player,
   },
   data() {
     return {
@@ -107,12 +147,15 @@ export default {
       reciter: reciter,
       selected_reciter: 37,
       options: [],
-      checTemp: false
+      checTemp: false,
     };
   },
   methods: {
     next() {
       this.index++;
+    },
+    prev() {
+      this.index--;
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
@@ -162,12 +205,12 @@ export default {
     getdata(fetchurl, qh) {
       this.change = 1;
       fetch(fetchurl, {
-        method: "get"
+        method: "get",
       })
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(jsonData => {
+        .then((jsonData) => {
           if (qh == 0) {
             if (jsonData.data[0].numberOfAyahs != undefined) {
               this.info = jsonData;
@@ -195,7 +238,7 @@ export default {
             value: i,
             text: `${this.parseName(
               this.reciter.reciters_verse[i].audio_url_bit_rate_64
-            )}`
+            )}`,
           };
           if (tempOption.text != "0") {
             this.options.push(tempOption);
@@ -235,7 +278,7 @@ export default {
           .composite(watermark, 0, 0, {
             mode: Jimp.BLEND_SOURCE_OVER,
             opacityDest: 1,
-            opacitySource: 0.5
+            opacitySource: 0.5,
           })
           .then(
             image.getBase64(Jimp.MIME_PNG, (err, blob) => {
@@ -246,7 +289,7 @@ export default {
       waterMark(
         "https://cdn-images-1.medium.com/fit/c/152/152/1*8I-HPL0bfoIzGied-dzOvA.png"
       );
-    }
+    },
   },
   watch: {},
   mounted: function() {
@@ -263,7 +306,7 @@ export default {
     var pattern = Trianglify({
       height: 1000,
       width: 3000,
-      cell_size: this.randomint(70, 700)
+      cell_size: this.randomint(70, 700),
     }).svg({ includeNamespace: true });
 
     // Take Trianglify SVG pattern and serialize it into XML string
@@ -276,7 +319,7 @@ export default {
     // document.getElementById("background").style.backgroundImage = patternMin;
 
     document.body.style.backgroundImage = patternMin;
-  }
+  },
 };
 </script>
 
@@ -412,7 +455,8 @@ input:checked + .slider .off {
 .slider.round:before {
   border-radius: 50%;
 }
-#ckbx, #switch {
+#ckbx,
+#switch {
   align-self: center;
 }
 </style>
