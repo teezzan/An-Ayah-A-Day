@@ -1,38 +1,87 @@
 <template>
   <!-- ۞ -->
 
-  <div id="bgb" class="p-5">
-    <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
+  <section>
+    <div id="bgb" class="p-5">
+      <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
 
-    <b-row align-v="center" class="p10" v-if="!qoh">
-      <b-col md="6" class="mytext">
-        <b-card id="ar" align="right">
-          <b-card-text id="arabic">{{ inputdataAr.text }}</b-card-text>
-        </b-card>
-      </b-col>
-      <hr class="my-4" />
-      <b-col md="6" class="mytext">
-        <b-card id="en" align="left">
-          <b-card-text
-            id="english"
-            v-bind:style="{fontSize: fonty(inputdataEn.text)}"
-          >{{ inputdataEn.text }}</b-card-text>
-        </b-card>
-      </b-col>
-    </b-row>
+      <div v-if="!qoh" id="surahName">
+        {{ info_arr[0].number }}. {{ info_arr[0].englishName }} ({{
+          info_arr[0].englishNameTranslation
+        }}) <br />
+        <small> Verse {{ index }}</small>
+      </div>
+      <b-row align-v="center" class="p10" v-if="!qoh">
+        <b-col md="6" class="mytext">
+          <b-card id="ar" align="right">
+            <b-card-text id="arabic">{{ inputdataAr.text }}</b-card-text>
+          </b-card>
+        </b-col>
+        <hr class="my-4" />
+        <b-col md="6" class="mytext">
+          <b-card id="en" align="left">
+            <b-card-text
+              id="english"
+              v-bind:style="{ fontSize: fonty(inputdataEn.text) }"
+              >{{ inputdataEn.text }}</b-card-text
+            >
+          </b-card>
+        </b-col>
+      </b-row>
+      <!-- <b-row align-h="center" class="m-0 p-0">
+        <b-col cols="4">
+          <b-button @click="rand(3)" variant="secondary" class="custom-button"
+            >Prev</b-button
+          >
+        </b-col>
+        <b-col cols="4">
+          <b-button @click="rand(2)" variant="secondary" class="custom-button"
+            >Next</b-button
+          >
+        </b-col>
+        <b-col cols="4">
+          <b-button
+            class="custom-button"
+            @click="rand(1)"
+            v-bind:variant="change == 1 ? 'secondary' : 'info'"
+          >
+            <span class="change" v-show="change == 1 ? true : false">
+              <b-spinner small></b-spinner>Loading
+            </span>
+            <span v-show="change == 0">Random</span>
+          </b-button>
+        </b-col>
+      </b-row> -->
+    </div>
 
-    <b-row align-h="center">
-      <b-col cols="6" align-self="end">
-        <b-button @click="rand(2)" variant="primary" class="custom-button">Next</b-button>
-        <b-button @click="rand(1)" v-bind:variant="[change==1 ? 'primary' :'info']">
-          <span class="change" v-show="change==1 ? true :false">
+    <b-row align-h="center" class="m-0 p-0">
+      <!-- <b-col cols="6" align-self="end"> -->
+      <b-col cols="4">
+        <b-button @click="rand(3)" variant="secondary" class="custom-button"
+          >Prev</b-button
+        >
+      </b-col>
+      <b-col cols="4">
+        <b-button @click="rand(2)" variant="secondary" class="custom-button"
+          >Next</b-button
+        >
+      </b-col>
+      <b-col cols="4">
+        <b-button
+          class="custom-button"
+          @click="rand(1)"
+          v-bind:variant="change == 1 ? 'secondary' : 'info'"
+        >
+          <span class="change" v-show="change == 1 ? true : false">
             <b-spinner small></b-spinner>Loading
           </span>
-          <span v-show="change==0" class="custom-button">Random</span>
+          <span v-show="change == 0">Random</span>
         </b-button>
       </b-col>
+      <!-- </b-col> -->
     </b-row>
-  </div>
+    <br />
+  </section>
 </template>
 
 <script>
@@ -41,28 +90,31 @@ export default {
     inputdataAr: Object,
     inputdataEn: Object,
     next: Function,
+    prev: Function,
     randomize: Function,
     numberOfAyahs: Number,
     change: Number,
     hadith: Array,
-    qoh: Boolean
+    qoh: Boolean,
+    info_arr: Array,
+    index: Number,
   },
   data() {
     return {
-      hadith_disp: ""
+      hadith_disp: "",
     };
   },
   computed: {
     more_info() {
       console.log("stuff could happen here");
       return "info";
-    }
+    },
   },
   methods: {
     fonty(inp) {
       if (inp.length > 240) {
         return `15px`;
-      }else if(inp.length < 170){
+      } else if (inp.length < 170) {
         return `17px`;
       }
       return `20px`;
@@ -74,6 +126,8 @@ export default {
       } else {
         if (i == 1) {
           this.randomize();
+        } else if (i == 3) {
+          this.prev();
         } else {
           this.next();
         }
@@ -86,11 +140,11 @@ export default {
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
-    }
+    },
   },
   mounted() {
     this.randomhadith();
-  }
+  },
 };
 </script>
 
@@ -145,6 +199,6 @@ export default {
 }
 .custom-button {
   width: 100px;
-  margin: 10px;
+  /* margin: 10px; */
 }
 </style>
