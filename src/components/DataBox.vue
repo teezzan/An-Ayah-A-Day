@@ -6,10 +6,11 @@
       <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
 
       <div v-if="!qoh" id="surahName">
-        {{ info_arr[0].number }}. {{ info_arr[0].englishName }} ({{
-          info_arr[0].englishNameTranslation
-        }}) <br />
-        <small> Verse {{ index }}</small>
+        {{ surah }}. {{ info_arr[0].englishName }} ({{
+        info_arr[0].englishNameTranslation
+        }})
+        <br />
+        <small>Verse {{ index }}</small>
       </div>
       <b-row align-v="center" class="p10" v-if="!qoh">
         <b-col md="6" class="mytext">
@@ -23,63 +24,26 @@
             <b-card-text
               id="english"
               v-bind:style="{ fontSize: fonty(inputdataEn.text) }"
-              >{{ inputdataEn.text }}</b-card-text
-            >
+            >{{ inputdataEn.text }}</b-card-text>
           </b-card>
         </b-col>
       </b-row>
-      <!-- <b-row align-h="center" class="m-0 p-0">
-        <b-col cols="4">
-          <b-button @click="rand(3)" variant="secondary" class="custom-button"
-            >Prev</b-button
-          >
-        </b-col>
-        <b-col cols="4">
-          <b-button @click="rand(2)" variant="secondary" class="custom-button"
-            >Next</b-button
-          >
-        </b-col>
-        <b-col cols="4">
-          <b-button
-            class="custom-button"
-            @click="rand(1)"
-            v-bind:variant="change == 1 ? 'secondary' : 'info'"
-          >
-            <span class="change" v-show="change == 1 ? true : false">
-              <b-spinner small></b-spinner>Loading
-            </span>
-            <span v-show="change == 0">Random</span>
-          </b-button>
-        </b-col>
-      </b-row> -->
     </div>
 
-    <b-row align-h="center" class="m-0 p-0">
-      <!-- <b-col cols="6" align-self="end"> -->
-      <b-col cols="4">
-        <b-button @click="rand(3)" variant="secondary" class="custom-button"
-          >Prev</b-button
-        >
-      </b-col>
-      <b-col cols="4">
-        <b-button @click="rand(2)" variant="secondary" class="custom-button"
-          >Next</b-button
-        >
-      </b-col>
-      <b-col cols="4">
-        <b-button
-          class="custom-button"
-          @click="rand(1)"
-          v-bind:variant="change == 1 ? 'secondary' : 'info'"
-        >
-          <span class="change" v-show="change == 1 ? true : false">
-            <b-spinner small></b-spinner>Loading
-          </span>
-          <span v-show="change == 0">Random</span>
-        </b-button>
-      </b-col>
-      <!-- </b-col> -->
-    </b-row>
+    <b-button-group class="mb-5">
+      <b-button @click="rand(3)" variant="secondary" class="custom-button">Prev</b-button>
+      <b-button @click="rand(2)" variant="secondary" class="custom-button">Next</b-button>
+      <b-button
+        class="custom-button"
+        @click="rand(1)"
+        v-bind:variant="change == 1 ? 'info' : 'secondary'"
+      >
+        <span class="change" v-show="change == 1 ? true : false">
+          <b-spinner small></b-spinner>Loading
+        </span>
+        <span v-show="change == 0">Random</span>
+      </b-button>
+    </b-button-group>
     <br />
   </section>
 </template>
@@ -98,17 +62,18 @@ export default {
     qoh: Boolean,
     info_arr: Array,
     index: Number,
+    surah: Number
   },
   data() {
     return {
-      hadith_disp: "",
+      hadith_disp: ""
     };
   },
   computed: {
     more_info() {
       console.log("stuff could happen here");
       return "info";
-    },
+    }
   },
   methods: {
     fonty(inp) {
@@ -140,11 +105,11 @@ export default {
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
-    },
+    }
   },
   mounted() {
     this.randomhadith();
-  },
+  }
 };
 </script>
 
@@ -191,7 +156,7 @@ export default {
   background-color: rgb(203, 236, 182);
 } */
 .btn {
-  margin: 0 5px;
+  /* margin: 0 5px; */
 }
 .mytext {
   margin-top: 25px;

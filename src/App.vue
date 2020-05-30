@@ -7,13 +7,13 @@
         <label class="switch mt-2">
           <input type="checkbox" id="togBtn" v-model="qoh" />
           <div class="slider round">
-            <span class="on"> Hadith </span>
-            <span class="off"> Quran </span>
+            <span class="on">Hadith</span>
+            <span class="off">Quran</span>
           </div>
         </label>
       </div>
       <!-- <div> -->
-      <b-row align-h="center" v-if="!qoh">
+      <!-- <b-row align-h="center" v-if="!qoh">
         <b-col>
           <b-button variant="secondary" @click="showModal">Options</b-button>
         </b-col>
@@ -27,7 +27,23 @@
             :checTemp="checTemp"
           />
         </b-col>
-      </b-row>
+      </b-row>-->
+      <b-button-group align-h="center" v-if="!qoh">
+        <b-button
+          style="border-top-left-radius:0.35rem;border-bottom-left-radius:0.35rem"
+          class="custom-button"
+          variant="secondary"
+          @click="showModal"
+        >Options</b-button>
+        <Player
+          style="border-radius:0;border-top-right-radius:0.35rem;border-bottom-right-radius:0.35rem"
+          v-if="info.data"
+          :audioUrl="audioLink()"
+          :next="next"
+          :qoh="this.qoh"
+          :checTemp="checTemp"
+        />
+      </b-button-group>
       <div class="mt-1"></div>
 
       <!-- </div> -->
@@ -37,8 +53,8 @@
             v-if="info.data"
             :index="index"
             :info_arr="info.data"
-            :inputdataEn="info.data[0].ayahs[index]"
-            :inputdataAr="info.data[1].ayahs[index]"
+            :inputdataEn="info.data[0].ayahs[index-1]"
+            :inputdataAr="info.data[1].ayahs[index-1]"
             :numberOfAyahs="this.numberOfAyahs"
             :change="this.change"
             :next="next"
@@ -46,6 +62,7 @@
             :randomize="randomize"
             :qoh="this.qoh"
             :hadith="this.hadith.AllChapters"
+            :surah="currentSurah"
           />
         </b-col>
       </b-row>
@@ -56,21 +73,31 @@
         <div id="modalV">
           <div v-if="!qoh" id="surahName">
             {{ info.data[0].number }}. {{ info.data[0].englishName }} ({{
-              info.data[0].englishNameTranslation
+            info.data[0].englishNameTranslation
             }})
+            <br />
             <small>Verse {{ index }}</small>
           </div>
           <div class="mt-3"></div>
 
           <b-row v-if="info.data">
             <b-col class="mr-auto ml-auto" v-if="!qoh">
-              <label for="ayah" class="mb-0">Jump to verse</label>
+              <label for="surah" class="mb-0">Jump to Surah</label>
               <b-input
-                v-model.number="index"
+                @input="updateSurah"
+                v-model.number="currentSurah"
                 type="number"
                 class="ml-sm-auto"
-                id="ayah"
+                id="surah"
               ></b-input>
+              <div class="mt-3"></div>
+            </b-col>
+          </b-row>
+
+          <b-row v-if="info.data">
+            <b-col class="mr-auto ml-auto" v-if="!qoh">
+              <label for="ayah" class="mb-0">Jump to verse</label>
+              <b-input v-model.number="index" type="number" class="ml-sm-auto" id="ayah"></b-input>
               <div class="mt-3"></div>
             </b-col>
           </b-row>
@@ -80,18 +107,9 @@
             <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
               <div v-if="info.data">
                 <label for="reciter" class="mb-0">Change reciter</label>
-                <b-form-select
-                  v-model="selected_reciter"
-                  id="reciter"
-                  :options="options"
-                ></b-form-select>
+                <b-form-select v-model="selected_reciter" id="reciter" :options="options"></b-form-select>
                 <div class="mt-3"></div>
-                <input
-                  type="checkbox"
-                  v-model="checTemp"
-                  style="font-size:20px"
-                  id="ckbx"
-                />
+                <input type="checkbox" v-model="checTemp" style="font-size:20px" id="ckbx" />
                 Continuous autoplay
               </div>
             </b-col>
@@ -105,14 +123,8 @@
               <span class="on"> Hadith </span>
               <span class="off"> Quran </span>
             </div>
-          </label> -->
-          <b-button
-            variant="secondary"
-            class="p10 mt-4"
-            @click="draw"
-            v-show="true"
-            >Save and Share</b-button
-          >
+          </label>-->
+          <b-button variant="secondary" class="p10 mt-4" @click="draw" v-show="true">Save and Share</b-button>
         </div>
       </b-modal>
     </b-container>
@@ -132,12 +144,12 @@ export default {
   components: {
     Header,
     DataBox,
-    Player,
+    Player
   },
   data() {
     return {
       info: {},
-      index: 0,
+      index: 1,
       bgd: 0,
       numberOfAyahs: 0,
       currentSurah: null,
@@ -148,6 +160,7 @@ export default {
       selected_reciter: 37,
       options: [],
       checTemp: false,
+      keep_ayah_on_surah_modified: false
     };
   },
   methods: {
@@ -161,10 +174,18 @@ export default {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
     randomize() {
+      this.keep_ayah_on_surah_modified = false;
       this.currentSurah = this.randomint(0, 114);
       var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
       // this.currentSurah = 2; //for local test
       // this.getdata("http://localhost:5001/pay/2", 0);
+      this.getdata(fetchurl, 0);
+    },
+    updateSurah() {
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      // this.currentSurah = 2; //for local test
+      // this.getdata("http://localhost:5001/pay/2", 0);
+      this.keep_ayah_on_surah_modified = true;
       this.getdata(fetchurl, 0);
     },
     parseNum(num) {
@@ -188,7 +209,7 @@ export default {
         }
 
         var surah = this.parseNum(this.currentSurah);
-        var ayah = this.parseNum(this.index + 1);
+        var ayah = this.parseNum(this.index);
         return `${
           this.reciter.reciters_verse[this.selected_reciter]
             .audio_url_bit_rate_64
@@ -205,17 +226,18 @@ export default {
     getdata(fetchurl, qh) {
       this.change = 1;
       fetch(fetchurl, {
-        method: "get",
+        method: "get"
       })
-        .then((response) => {
+        .then(response => {
           return response.json();
         })
-        .then((jsonData) => {
+        .then(jsonData => {
           if (qh == 0) {
             if (jsonData.data[0].numberOfAyahs != undefined) {
               this.info = jsonData;
               this.numberOfAyahs = jsonData.data[0].numberOfAyahs;
-              this.index = this.randomint(0, this.numberOfAyahs - 1);
+              if (!this.keep_ayah_on_surah_modified)
+                this.index = this.randomint(0, this.numberOfAyahs - 1);
               // this.index = 0;
               this.change = 0;
             } else {
@@ -238,7 +260,7 @@ export default {
             value: i,
             text: `${this.parseName(
               this.reciter.reciters_verse[i].audio_url_bit_rate_64
-            )}`,
+            )}`
           };
           if (tempOption.text != "0") {
             this.options.push(tempOption);
@@ -278,7 +300,7 @@ export default {
           .composite(watermark, 0, 0, {
             mode: Jimp.BLEND_SOURCE_OVER,
             opacityDest: 1,
-            opacitySource: 0.5,
+            opacitySource: 0.5
           })
           .then(
             image.getBase64(Jimp.MIME_PNG, (err, blob) => {
@@ -289,7 +311,7 @@ export default {
       waterMark(
         "https://cdn-images-1.medium.com/fit/c/152/152/1*8I-HPL0bfoIzGied-dzOvA.png"
       );
-    },
+    }
   },
   watch: {},
   mounted: function() {
@@ -306,7 +328,7 @@ export default {
     var pattern = Trianglify({
       height: 1000,
       width: 3000,
-      cell_size: this.randomint(70, 700),
+      cell_size: this.randomint(70, 700)
     }).svg({ includeNamespace: true });
 
     // Take Trianglify SVG pattern and serialize it into XML string
@@ -319,7 +341,7 @@ export default {
     // document.getElementById("background").style.backgroundImage = patternMin;
 
     document.body.style.backgroundImage = patternMin;
-  },
+  }
 };
 </script>
 
@@ -458,5 +480,9 @@ input:checked + .slider .off {
 #ckbx,
 #switch {
   align-self: center;
+}
+.custom-button {
+  width: 100px;
+  /* margin: 10px; */
 }
 </style>
