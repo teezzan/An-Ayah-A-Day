@@ -174,6 +174,7 @@ export default {
       return Math.floor(Math.random() * (max - min + 1) + min);
     },
     randomize() {
+      this.keep_ayah_on_surah_modified = false;
       this.currentSurah = this.randomint(0, 114);
       var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
       // this.currentSurah = 2; //for local test
