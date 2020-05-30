@@ -6,7 +6,7 @@
       <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
 
       <div v-if="!qoh" id="surahName">
-        {{ info_arr[0].number }}. {{ info_arr[0].englishName }} ({{
+        {{ surah }}. {{ info_arr[0].englishName }} ({{
         info_arr[0].englishNameTranslation
         }})
         <br />
@@ -61,7 +61,8 @@ export default {
     hadith: Array,
     qoh: Boolean,
     info_arr: Array,
-    index: Number
+    index: Number,
+    surah: Number
   },
   data() {
     return {
