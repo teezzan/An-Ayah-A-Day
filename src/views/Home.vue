@@ -159,7 +159,8 @@ export default {
       selected_reciter: 37,
       options: [],
       checTemp: false,
-      keep_ayah_on_surah_modified: false
+      keep_ayah_on_surah_modified: false,
+      permalink_ayah : false
     };
   },
   methods: {
@@ -236,7 +237,12 @@ export default {
               this.info = jsonData;
               this.numberOfAyahs = jsonData.data[0].numberOfAyahs;
               if (!this.keep_ayah_on_surah_modified)
-                this.index = this.randomint(0, this.numberOfAyahs - 1);
+                if(this.permalink_ayah){
+                   this.index = parseInt(this.$route.params.ayah)
+                   this.permalink_ayah = false
+                }
+                else{
+                this.index = this.randomint(0, this.numberOfAyahs - 1);}
               // this.index = 0;
               this.change = 0;
             } else {
@@ -314,7 +320,19 @@ export default {
   },
   watch: {},
   mounted: function() {
-    this.randomize();
+    if (
+      this.$route.params.ayah != undefined &&
+      this.$route.params.surah != undefined
+    ) {
+      this.keep_ayah_on_surah_modified = false;
+      this.permalink_ayah = true
+      this.currentSurah = parseInt(this.$route.params.surah);
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      this.getdata(fetchurl, 0);
+    } else {
+      this.randomize();
+    }
+
     this.reciter_option();
 
     if (typeof Storage !== "undefined") {
