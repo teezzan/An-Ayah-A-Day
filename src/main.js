@@ -3,9 +3,10 @@ import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
-import App from "./App.vue";
-import VueSocialSharing from "vue-social-sharing";
-Vue.use(VueSocialSharing);
+import App from './App.vue'
+import router from './router'
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
@@ -13,5 +14,6 @@ Vue.use(BootstrapVueIcons);
 Vue.config.productionTip = false;
 
 new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
+  router,
+  render: h => h(App)
+}).$mount('#app')
