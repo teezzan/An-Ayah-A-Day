@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Header />
-
     <b-container id="extcon">
       <div class="mr-auto ml-auto" sm="4" id="switch">
         <label class="switch mt-2">
@@ -34,7 +33,8 @@
           class="custom-button"
           variant="secondary"
           @click="showModal"
-        >Options</b-button>
+          >Options</b-button
+        >
         <Player
           style="border-radius:0;border-top-right-radius:0.35rem;border-bottom-right-radius:0.35rem"
           v-if="info.data"
@@ -53,8 +53,8 @@
             v-if="info.data"
             :index="index"
             :info_arr="info.data"
-            :inputdataEn="info.data[0].ayahs[index-1]"
-            :inputdataAr="info.data[1].ayahs[index-1]"
+            :inputdataEn="info.data[0].ayahs[index - 1]"
+            :inputdataAr="info.data[1].ayahs[index - 1]"
             :numberOfAyahs="this.numberOfAyahs"
             :change="this.change"
             :next="next"
@@ -73,7 +73,7 @@
         <div id="modalV">
           <div v-if="!qoh" id="surahName">
             {{ info.data[0].number }}. {{ info.data[0].englishName }} ({{
-            info.data[0].englishNameTranslation
+              info.data[0].englishNameTranslation
             }})
             <br />
             <small>Verse {{ index }}</small>
@@ -97,7 +97,12 @@
           <b-row v-if="info.data">
             <b-col class="mr-auto ml-auto" v-if="!qoh">
               <label for="ayah" class="mb-0">Jump to verse</label>
-              <b-input v-model.number="index" type="number" class="ml-sm-auto" id="ayah"></b-input>
+              <b-input
+                v-model.number="index"
+                type="number"
+                class="ml-sm-auto"
+                id="ayah"
+              ></b-input>
               <div class="mt-3"></div>
             </b-col>
           </b-row>
@@ -107,9 +112,18 @@
             <b-col class="mr-auto ml-auto my-auto" sm="9" xm="7" offset="2">
               <div v-if="info.data">
                 <label for="reciter" class="mb-0">Change reciter</label>
-                <b-form-select v-model="selected_reciter" id="reciter" :options="options"></b-form-select>
+                <b-form-select
+                  v-model="selected_reciter"
+                  id="reciter"
+                  :options="options"
+                ></b-form-select>
                 <div class="mt-3"></div>
-                <input type="checkbox" v-model="checTemp" style="font-size:20px" id="ckbx" />
+                <input
+                  type="checkbox"
+                  v-model="checTemp"
+                  style="font-size:20px"
+                  id="ckbx"
+                />
                 Continuous autoplay
               </div>
             </b-col>
@@ -124,16 +138,31 @@
               <span class="off"> Quran </span>
             </div>
           </label>-->
-          <b-button variant="secondary" class="p10 mt-4" @click="draw" v-show="true">Save and Share</b-button>
+          <b-button
+            variant="secondary"
+            class="p10 mt-4"
+            @click="draw"
+            v-show="true"
+            >Save and Share</b-button
+          >
         </div>
       </b-modal>
     </b-container>
+    <SocialShare
+      v-if="info.data"
+      :verse="index"
+      :surah="info.data"
+      :arabic="info.data[0].ayahs[index - 1]"
+      :english="info.data[1].ayahs[index - 1]"
+      url="https://dailyayah.herokuapp.com/"
+    />
   </div>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
 import DataBox from "./components/DataBox.vue";
+import SocialShare from "./components/SocialMediaShare.vue";
 import Player from "./components/Player.vue";
 import hadith from "./assets/en";
 import reciter from "./assets/verse_ar";
@@ -143,8 +172,9 @@ export default {
   name: "App",
   components: {
     Header,
+    SocialShare,
     DataBox,
-    Player
+    Player,
   },
   data() {
     return {
@@ -160,7 +190,7 @@ export default {
       selected_reciter: 37,
       options: [],
       checTemp: false,
-      keep_ayah_on_surah_modified: false
+      keep_ayah_on_surah_modified: false,
     };
   },
   methods: {
@@ -226,12 +256,12 @@ export default {
     getdata(fetchurl, qh) {
       this.change = 1;
       fetch(fetchurl, {
-        method: "get"
+        method: "get",
       })
-        .then(response => {
+        .then((response) => {
           return response.json();
         })
-        .then(jsonData => {
+        .then((jsonData) => {
           if (qh == 0) {
             if (jsonData.data[0].numberOfAyahs != undefined) {
               this.info = jsonData;
@@ -260,7 +290,7 @@ export default {
             value: i,
             text: `${this.parseName(
               this.reciter.reciters_verse[i].audio_url_bit_rate_64
-            )}`
+            )}`,
           };
           if (tempOption.text != "0") {
             this.options.push(tempOption);
@@ -300,7 +330,7 @@ export default {
           .composite(watermark, 0, 0, {
             mode: Jimp.BLEND_SOURCE_OVER,
             opacityDest: 1,
-            opacitySource: 0.5
+            opacitySource: 0.5,
           })
           .then(
             image.getBase64(Jimp.MIME_PNG, (err, blob) => {
@@ -311,7 +341,7 @@ export default {
       waterMark(
         "https://cdn-images-1.medium.com/fit/c/152/152/1*8I-HPL0bfoIzGied-dzOvA.png"
       );
-    }
+    },
   },
   watch: {},
   mounted: function() {
@@ -328,7 +358,7 @@ export default {
     var pattern = Trianglify({
       height: 1000,
       width: 3000,
-      cell_size: this.randomint(70, 700)
+      cell_size: this.randomint(70, 700),
     }).svg({ includeNamespace: true });
 
     // Take Trianglify SVG pattern and serialize it into XML string
@@ -341,7 +371,7 @@ export default {
     // document.getElementById("background").style.backgroundImage = patternMin;
 
     document.body.style.backgroundImage = patternMin;
-  }
+  },
 };
 </script>
 

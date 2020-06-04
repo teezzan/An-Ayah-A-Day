@@ -7,7 +7,7 @@
 
       <div v-if="!qoh" id="surahName">
         {{ surah }}. {{ info_arr[0].englishName }} ({{
-        info_arr[0].englishNameTranslation
+          info_arr[0].englishNameTranslation
         }})
         <br />
         <small>Verse {{ index }}</small>
@@ -24,15 +24,20 @@
             <b-card-text
               id="english"
               v-bind:style="{ fontSize: fonty(inputdataEn.text) }"
-            >{{ inputdataEn.text }}</b-card-text>
+              >{{ inputdataEn.text }}</b-card-text
+            >
           </b-card>
         </b-col>
       </b-row>
     </div>
 
     <b-button-group class="mb-5">
-      <b-button @click="rand(3)" variant="secondary" class="custom-button">Prev</b-button>
-      <b-button @click="rand(2)" variant="secondary" class="custom-button">Next</b-button>
+      <b-button @click="rand(3)" variant="secondary" class="custom-button"
+        >Prev</b-button
+      >
+      <b-button @click="rand(2)" variant="secondary" class="custom-button"
+        >Next</b-button
+      >
       <b-button
         class="custom-button"
         @click="rand(1)"
@@ -62,18 +67,18 @@ export default {
     qoh: Boolean,
     info_arr: Array,
     index: Number,
-    surah: Number
+    surah: Number,
   },
   data() {
     return {
-      hadith_disp: ""
+      hadith_disp: "",
     };
   },
   computed: {
     more_info() {
       console.log("stuff could happen here");
       return "info";
-    }
+    },
   },
   methods: {
     fonty(inp) {
@@ -105,11 +110,11 @@ export default {
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
-    }
+    },
   },
   mounted() {
     this.randomhadith();
-  }
+  },
 };
 </script>
 
