@@ -63,6 +63,9 @@ export default {
         if (sessionStorage.choice_of_autoplay) {
           this.next();
           this.$refs.audplay.play();
+          if (this.$refs.audplay.duration > 0) {
+            this.playOrPause = "Pause";
+          }
         }
       }
     },
@@ -72,6 +75,9 @@ export default {
         if (typeof Storage !== "undefined") {
           sessionStorage.setItem("choice_of_autoplay", "autoplay");
           this.$refs.audplay.play();
+          if (this.$refs.audplay.duration > 0) {
+            this.playOrPause = "Pause";
+          }
         } else {
           alert("Not supported by your browser");
         }
