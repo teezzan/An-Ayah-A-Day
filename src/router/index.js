@@ -11,10 +11,15 @@ Vue.use(VueRouter)
     component: Home
   },
   {
-    path: '/permlink/:surah/:ayah',
+    path: '/permalink/:surah/:ayah',
     name: 'Home',
     component: Home
-  }
+  },
+  {
+    path: '*',
+    name: 'Home',
+    component: Home
+  },
 ]
 
 const router = new VueRouter({
