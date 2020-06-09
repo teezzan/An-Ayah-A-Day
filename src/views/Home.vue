@@ -363,14 +363,10 @@ export default {
 </script>
 
 <style>
-@font-face {
-  font-family: "Amiri";
-  src: url("/../assets/fonts/Amiri-Italic.ttf") format("truetype");
-  font-style: normal;
-}
+font-family: 'Amiri', serif;
 
 #applet {
-  font-family: Amiri, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Amiri', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
