@@ -1,8 +1,8 @@
 <template>
   <div>
-    <button @click="turn_share_off">
+    <button @click="turn_share_off" style="margin-left:0px;padding-left:0px">
       <ShareNetwork
-        style="cursor:pointer"
+        style="cursor:pointer;margin:4px"
         v-for="network in networks"
         :network="network.network"
         :key="network.key"
@@ -75,7 +75,7 @@ export default {
         {
           network: "facebook",
           name: "Facebook",
-          icon: "fab fah fa-lg fa-facebook-f",
+          // icon: "fab fah fa-lg fa-facebook-f",
           color: "#1877f2"
         },
         // {
@@ -114,12 +114,12 @@ export default {
         //   icon: "fab fah fa-lg fa-odnoklassniki",
         //   color: "#ed812b",
         // },
-        {
-          network: "pinterest",
-          name: "Pinterest",
-          icon: "fab fah fa-lg fa-pinterest",
-          color: "#bd081c"
-        },
+        // {
+        //   network: "pinterest",
+        //   name: "Pinterest",
+        //   icon: "fab fah fa-lg fa-pinterest",
+        //   color: "#bd081c"
+        // },
         // {
         //   network: "pocket",
         //   name: "Pocket",
@@ -135,7 +135,7 @@ export default {
         {
           network: "reddit",
           name: "Reddit",
-          icon: "fab fah fa-lg fa-reddit-alien",
+          // icon: "fab fah fa-lg fa-reddit-alien",
           color: "#ff4500"
         },
         // {
@@ -147,8 +147,8 @@ export default {
         {
           network: "sms",
           name: "SMS",
-          icon: "far fah fa-lg fa-comment-dots",
-          color: "#333333"
+          // icon: "far fah fa-lg fa-comment-dots",
+          color: "white"
         },
         // {
         //   network: "stumbleupon",
@@ -171,7 +171,7 @@ export default {
         {
           network: "twitter",
           name: "Twitter",
-          icon: "fab fah fa-lg fa-twitter",
+          // icon: "fab fah fa-lg fa-twitter",
           color: "#1da1f2"
         },
         // {
@@ -195,7 +195,7 @@ export default {
         {
           network: "whatsapp",
           name: "Whatsapp",
-          icon: "fab fah fa-lg fa-whatsapp",
+          // icon: "fab fah fa-lg fa-whatsapp",
           color: "#25d366"
         }
         // {

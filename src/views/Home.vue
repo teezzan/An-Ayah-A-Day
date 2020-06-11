@@ -125,12 +125,9 @@
             </div>
           </label>-->
           <!-- <Sharing v-if="info.data" arabic english /> -->
-          <b-button
-            variant="secondary"
-            class="p10 mt-4"
-            @click="draw(true)"
-            v-show="true"
-          >Save and Share</b-button>
+          <b-button variant="secondary" class="p10 mt-4" @click="draw(true)" v-show="true">Share</b-button>
+          <br />
+          <br />
           <Sharing
             v-if="share"
             :arabic="info.data[1].ayahs[index-1]"
