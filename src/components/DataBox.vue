@@ -75,6 +75,9 @@ export default {
       return "info";
     }
   },
+  mounted() {
+    this.randomhadith();
+  },
   methods: {
     fonty(inp) {
       if (inp.length > 240) {
