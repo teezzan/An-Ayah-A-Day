@@ -27,7 +27,8 @@ export default {
   props: {
     arabic: Object,
     english: Object,
-    surah: Array
+    surah: Array,
+    surah_number: Number
   },
   methods: {
     turn_share_off() {
@@ -35,7 +36,8 @@ export default {
     }
   },
   mounted: function() {
-    this.url = `the general url/surah/${this.verse}`;
+    const hostname = window.location.hostname;
+    this.url = `${hostname}/${this.surah_number}/${this.verse}`;
   },
   data() {
     return {

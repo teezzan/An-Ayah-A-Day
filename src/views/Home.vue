@@ -136,6 +136,7 @@
             :arabic="info.data[1].ayahs[index-1]"
             :english="info.data[0].ayahs[index-1]"
             :surah="info.data"
+            :surah_number="currentSurah"
             @turn_share_off="draw"
           />
         </div>
@@ -306,8 +307,8 @@ export default {
       //   });
       // }
       // textOverlay();
+      if (!value) value = false;
       this.share = value;
-      console.log("yh");
     },
     write() {
       async function waterMark(waterMarkImage) {
