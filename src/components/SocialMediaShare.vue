@@ -1,21 +1,23 @@
 <template>
   <div>
-    <ShareNetwork
-      style="cursor:pointer"
-      v-for="network in networks"
-      :network="network.network"
-      :key="network.key"
-      :style="{ backgroundColor: network.color }"
-      :url="urll"
-      :title="title"
-      :description="description"
-      :quote="quote"
-      :hashtags="hashtags"
-      :twitterUser="twitterUser"
-    >
-      <i :class="network.icon"></i>
-      <span>{{ network.name }}</span>
-    </ShareNetwork>
+    <button @click="turn_share_off">
+      <ShareNetwork
+        style="cursor:pointer"
+        v-for="network in networks"
+        :network="network.network"
+        :key="network.key"
+        :style="{ backgroundColor: network.color }"
+        :url="url"
+        :title="title"
+        :description="description"
+        :quote="quote"
+        :hashtags="hashtags"
+        :twitterUser="twitterUser"
+      >
+        <i :class="network.icon"></i>
+        <span>{{ network.name }}</span>
+      </ShareNetwork>
+    </button>
   </div>
 </template>
 
@@ -25,17 +27,21 @@ export default {
   props: {
     arabic: Object,
     english: Object,
-    surah: Array,
-    verse: Number,
-    url: String,
+    surah: Array
   },
-  mounted() {
-    console.log(this.verse);
+  methods: {
+    turn_share_off() {
+      this.$emit("turn_share_off");
+    }
+  },
+  mounted: function() {
+    this.url = `the general url/surah/${this.verse}`;
   },
   data() {
     return {
-      urll: this.url,
-      title: `Surah ${this.surah[0].englishName} Verse ${this.verse}`,
+      verse: this.arabic.numberInSurah,
+      url: "",
+      title: `Surah ${this.surah[0].englishName} Verse ${this.arabic.numberInSurah}`,
       description: `${this.english.text}. \n ${this.arabic.text}.`,
       hashtags: "Quran,Hadith,Islam",
       twitterUser: "Hadith_Bot",
@@ -68,7 +74,7 @@ export default {
           network: "facebook",
           name: "Facebook",
           icon: "fab fah fa-lg fa-facebook-f",
-          color: "#1877f2",
+          color: "#1877f2"
         },
         // {
         //   network: "flipboard",
@@ -110,7 +116,7 @@ export default {
           network: "pinterest",
           name: "Pinterest",
           icon: "fab fah fa-lg fa-pinterest",
-          color: "#bd081c",
+          color: "#bd081c"
         },
         // {
         //   network: "pocket",
@@ -128,7 +134,7 @@ export default {
           network: "reddit",
           name: "Reddit",
           icon: "fab fah fa-lg fa-reddit-alien",
-          color: "#ff4500",
+          color: "#ff4500"
         },
         // {
         //   network: "skype",
@@ -140,7 +146,7 @@ export default {
           network: "sms",
           name: "SMS",
           icon: "far fah fa-lg fa-comment-dots",
-          color: "#333333",
+          color: "#333333"
         },
         // {
         //   network: "stumbleupon",
@@ -164,7 +170,7 @@ export default {
           network: "twitter",
           name: "Twitter",
           icon: "fab fah fa-lg fa-twitter",
-          color: "#1da1f2",
+          color: "#1da1f2"
         },
         // {
         //   network: "viber",
@@ -188,8 +194,8 @@ export default {
           network: "whatsapp",
           name: "Whatsapp",
           icon: "fab fah fa-lg fa-whatsapp",
-          color: "#25d366",
-        },
+          color: "#25d366"
+        }
         // {
         //   network: "wordpress",
         //   name: "Wordpress",
@@ -208,8 +214,8 @@ export default {
         //   icon: "fab fah fa-lg fa-vuejs",
         //   color: "#41b883",
         // },
-      ],
+      ]
     };
-  },
+  }
 };
 </script>

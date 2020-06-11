@@ -124,7 +124,20 @@
               <span class="off"> Quran </span>
             </div>
           </label>-->
-          <b-button variant="secondary" class="p10 mt-4" @click="draw" v-show="true">Save and Share</b-button>
+          <!-- <Sharing v-if="info.data" arabic english /> -->
+          <b-button
+            variant="secondary"
+            class="p10 mt-4"
+            @click="draw(true)"
+            v-show="true"
+          >Save and Share</b-button>
+          <Sharing
+            v-if="share"
+            :arabic="info.data[1].ayahs[index-1]"
+            :english="info.data[0].ayahs[index-1]"
+            :surah="info.data"
+            @turn_share_off="draw"
+          />
         </div>
       </b-modal>
     </b-container>
@@ -135,6 +148,7 @@
 import Header from "../components/Header.vue";
 import DataBox from "../components/DataBox.vue";
 import Player from "../components/Player.vue";
+import Sharing from "../components/SocialMediaShare";
 import hadith from "../assets/en";
 import reciter from "../assets/verse_ar";
 var FileSaver = require("file-saver");
@@ -143,7 +157,8 @@ export default {
   components: {
     Header,
     DataBox,
-    Player
+    Player,
+    Sharing
   },
   data() {
     return {
@@ -160,7 +175,8 @@ export default {
       options: [],
       checTemp: false,
       keep_ayah_on_surah_modified: false,
-      permalink_ayah : false
+      permalink_ayah: false,
+      share: false
     };
   },
   methods: {
@@ -237,12 +253,12 @@ export default {
               this.info = jsonData;
               this.numberOfAyahs = jsonData.data[0].numberOfAyahs;
               if (!this.keep_ayah_on_surah_modified)
-                if(this.permalink_ayah){
-                   this.index = parseInt(this.$route.params.ayah)
-                   this.permalink_ayah = false
+                if (this.permalink_ayah) {
+                  this.index = parseInt(this.$route.params.ayah);
+                  this.permalink_ayah = false;
+                } else {
+                  this.index = this.randomint(0, this.numberOfAyahs - 1);
                 }
-                else{
-                this.index = this.randomint(0, this.numberOfAyahs - 1);}
               // this.index = 0;
               this.change = 0;
             } else {
@@ -280,18 +296,18 @@ export default {
     cancelModal() {
       this.$refs["my-modal"].hide();
     },
-    draw() {
-      async function textOverlay() {
-        const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
-        const image = await Jimp.read(1000, 1000, 0x0000ffff);
-
-        image.print(font, 10, 10, "Hello World!");
-        image.getBase64(Jimp.MIME_PNG, (err, blob) => {
-          FileSaver.saveAs(blob, "inlayworld.png");
-        });
-      }
-
-      textOverlay();
+    draw(value) {
+      // async function textOverlay() {
+      //   const font = await Jimp.loadFont(Jimp.FONT_SANS_32_BLACK);
+      //   const image = await Jimp.read(1000, 1000, 0x0000ffff);
+      //   image.print(font, 10, 10, "Hello World!");
+      //   image.getBase64(Jimp.MIME_PNG, (err, blob) => {
+      //     FileSaver.saveAs(blob, "inlayworld.png");
+      //   });
+      // }
+      // textOverlay();
+      this.share = value;
+      console.log("yh");
     },
     write() {
       async function waterMark(waterMarkImage) {
@@ -325,7 +341,7 @@ export default {
       this.$route.params.surah != undefined
     ) {
       this.keep_ayah_on_surah_modified = false;
-      this.permalink_ayah = true
+      this.permalink_ayah = true;
       this.currentSurah = parseInt(this.$route.params.surah);
       var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
       this.getdata(fetchurl, 0);
