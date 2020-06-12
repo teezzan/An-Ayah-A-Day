@@ -75,6 +75,9 @@ export default {
       return "info";
     }
   },
+  mounted() {
+    this.randomhadith();
+  },
   methods: {
     fonty(inp) {
       if (inp.length > 240) {
@@ -106,9 +109,6 @@ export default {
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
     }
-  },
-  mounted() {
-    this.randomhadith();
   }
 };
 </script>
@@ -129,7 +129,7 @@ export default {
 }
 #arabic {
   font-size: 21px;
-  font-family: Amiri;
+  font-family: 'Amiri', serif;
   /* font-Weight: bold; */
   color: rgb(194, 186, 186);
 }
