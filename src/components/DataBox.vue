@@ -2,7 +2,7 @@
   <!-- ۞ -->
 
   <section>
-    <div id="bgb" class="p-5">
+    <div id="bgb" class="p-2 pt-4">
       <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
 
       <div v-if="!qoh" id="surahName">
@@ -140,7 +140,7 @@ export default {
   color: rgb(194, 186, 186);
 }
 #bgb {
-  margin-bottom: 35px;
+  margin-bottom: 15px;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 7px;
   height: auto;
@@ -161,7 +161,10 @@ export default {
 }
 .mytext {
   margin-top: 25px;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
+  text-align: justify;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .custom-button {
   width: 100px;
