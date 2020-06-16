@@ -3,7 +3,13 @@
 
   <section>
     <div id="bgb" class="p-2 pt-4">
-      <div id="Hadith" class="mytext" v-if="qoh">{{ hadith_disp }}</div>
+      <div id="Hadith" class="mytext" v-if="qoh">
+        {{ hadith_disp[0] }}
+        <br />
+        [{{this.hadith_disp[1]}}]
+        <br />
+        {{this.hadith_disp[2] && this.hadith_disp[2].length > 1? this.hadith_disp[2].substring(1) : ""}}
+      </div>
 
       <div v-if="!qoh" id="surahName">
         {{ surah }}. {{ info_arr[0].englishName }} ({{
@@ -66,7 +72,8 @@ export default {
   },
   data() {
     return {
-      hadith_disp: ""
+      hadith_disp: "",
+      hadith_index: null
     };
   },
   computed: {
@@ -90,7 +97,19 @@ export default {
     },
     rand(i) {
       if (this.qoh) {
-        this.randomhadith();
+        if (i == 1) {
+          this.randomhadith();
+        } else if (i == 3) {
+          this.hadith_index--;
+        } else {
+          this.hadith_index++;
+        }
+        let hadith = `${this.hadith[this.hadith_index].En_Sanad} ${
+          this.hadith[this.hadith_index].En_Text
+        }`;
+        let hadith_lhs = hadith.split("[");
+        let hadith_rhs = hadith_lhs[1].split("]"); //for hadith that brings othe rnarration after the raawi(s)
+        this.hadith_disp = [hadith_lhs[0], hadith_rhs[0], hadith_rhs[1]];
       } else {
         if (i == 1) {
           this.randomize();
@@ -102,8 +121,11 @@ export default {
       }
     },
     randomhadith() {
-      let rand = this.randomint(0, 1894);
-      this.hadith_disp = `${this.hadith[rand].En_Sanad} ${this.hadith[rand].En_Text}`;
+      this.hadith_index = this.randomint(0, 1894);
+      let hadith = `${this.hadith[this.hadith_index].En_Sanad} ${
+        this.hadith[this.hadith_index].En_Text
+      }`;
+      this.hadith_disp = hadith.split("[");
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
