@@ -43,7 +43,7 @@ export default {
     return {
       verse: this.arabic.numberInSurah,
       url: "",
-      title: `Surah ${this.surah[0].englishName} Verse ${this.arabic.numberInSurah}`,
+      title: `*Surah ${this.surah[0].englishName} Verse ${this.arabic.numberInSurah}*`,
       description: `${this.english.text}. \n ${this.arabic.text}.`,
       hashtags: "Quran,Hadith,Islam",
       twitterUser: "Hadith_Bot",
