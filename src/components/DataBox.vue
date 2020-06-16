@@ -129,9 +129,10 @@ export default {
 }
 #arabic {
   font-size: 21px;
-  font-family: 'Amiri', serif;
+  font-family: "Amiri", serif;
   /* font-Weight: bold; */
   color: rgb(194, 186, 186);
+  line-height: 40px;
 }
 #english {
   font-size: 21px;
