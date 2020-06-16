@@ -102,9 +102,8 @@ export default {
       }
     },
     randomhadith() {
-      this.hadith_disp = `${this.hadith[this.randomint(0, 1894)].En_Sanad} ${
-        this.hadith[this.randomint(0, 1894)].En_Text
-      }`;
+      let rand = this.randomint(0, 1894);
+      this.hadith_disp = `${this.hadith[rand].En_Sanad} ${this.hadith[rand].En_Text}`;
     },
     randomint(min, max) {
       return Math.floor(Math.random() * (max - min + 1) + min);
