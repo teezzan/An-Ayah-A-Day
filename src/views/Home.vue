@@ -190,13 +190,13 @@ export default {
     randomize() {
       this.keep_ayah_on_surah_modified = false;
       this.currentSurah = this.randomint(0, 114);
-      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.sahih,ar.alafasy`;
       // this.currentSurah = 2; //for local test
       // this.getdata("http://localhost:5001/pay/2", 0);
       this.getdata(fetchurl, 0);
     },
     updateSurah() {
-      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.sahih,ar.alafasy`;
       // this.currentSurah = 2; //for local test
       // this.getdata("http://localhost:5001/pay/2", 0);
       this.keep_ayah_on_surah_modified = true;
@@ -341,7 +341,7 @@ export default {
       this.keep_ayah_on_surah_modified = false;
       this.permalink_ayah = true;
       this.currentSurah = parseInt(this.$route.params.surah);
-      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.yusufali,ar.alafasy`;
+      var fetchurl = `https://api.alquran.cloud/v1/surah/${this.currentSurah}/editions/en.sahih,ar.alafasy`;
       this.getdata(fetchurl, 0);
     } else {
       this.randomize();
