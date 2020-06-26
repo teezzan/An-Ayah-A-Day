@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri&display=swap"
+      rel="stylesheet"
+    />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <script src="https://use.fontawesome.com/81321c4b5c.js"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
@@ -230,7 +233,13 @@
     <!-- <b-container id="app" ></b-container> -->
     <!-- built files will be auto injected -->
     <script src="/dist/vue-social-sharing.js"></script>
-    <script  src="//cafechat.app/start.js" async></script>
-    <script type="text/javascript">window.__arsfChatIdg='456838174';window.instantChatBotUidName = 'userId'</script>
+    <div>
+      <script src="//cafechat.app/start.js" async></script>
+      <script type="text/javascript">
+        window.__arsfChatIdg = "456838174";
+        var tee = Date.now()
+        window.instantChatBotUidName = `user${tee}`;
+      </script>
+    </div>
   </body>
 </html>
