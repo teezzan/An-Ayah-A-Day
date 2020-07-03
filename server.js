@@ -8,11 +8,11 @@ var app = express();
 app.use(history());
 app.use(serveStatic(path.join(__dirname, 'dist')));
 
-// app.get('*', function (req, res) {
-//     res.redirect('/');
-// });
+app.get('*', function (req, res) {
+    res.redirect('/');
+});
 
-app.get('*', (req, res) => {
+app.post('*', (req, res) => {
 
 
 
@@ -27,7 +27,7 @@ app.get('*', (req, res) => {
                 console.log(err);
                 // res.sendFile("./lena-small-bw.jpg", (err) => {
                 //     if (err) return res.status(404);
-                //     console.log("GOOD");
+                    console.log(path.join(__dirname, '/lena-small-bw.jpg'));
                 // });
                 res.sendFile(path.join(__dirname, '/lena-small-bw.jpg'));
 
