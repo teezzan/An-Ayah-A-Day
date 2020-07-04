@@ -3,6 +3,7 @@ const serveStatic = require("serve-static")
 const path = require('path');
 var history = require('connect-history-api-fallback');
 var Jimp = require('jimp');
+var cors = require('cors')
 var fs = require('fs');
 var app = express();
 var bodyParser = require('body-parser');
@@ -10,12 +11,12 @@ app.use(history());
 app.use(serveStatic(path.join(__dirname, 'dist')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(cors());
 app.get('*', function (req, res) {
     res.redirect('/');
 });
 
-app.post('*', (req, res) => {
+app.post('*', cors(), (req, res) => {
 
 
 

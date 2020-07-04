@@ -125,7 +125,7 @@
             </div>
           </label>-->
           <!-- <Sharing v-if="info.data" arabic english /> -->
-          <b-button variant="secondary" class="p10 mt-4" @click="draw(true)" v-show="true">Share</b-button>
+          <b-button variant="secondary" class="p10 mt-4" @click="downsave" v-show="true">Share</b-button>
           <br />
           <br />
           <Sharing
@@ -330,6 +330,23 @@ export default {
       waterMark(
         "https://cdn-images-1.medium.com/fit/c/152/152/1*8I-HPL0bfoIzGied-dzOvA.png"
       );
+    },
+    downsave() {
+      const axios = require('axios');
+
+      var url = window.location.host;
+      axios
+        .post(
+          url,
+          { surah: this.currentSurah, ayah: this.index },
+          {
+            responseType: "arraybuffer"
+          }
+        )
+        .then(response => {
+          var rec = Buffer.from(response.data, "binary").toString("base64");
+          FileSaver.saveAs(rec, "output.jpg");
+        });
     }
   },
   watch: {},

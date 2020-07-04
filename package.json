@@ -10,9 +10,11 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bootstrap-vue": "^2.13.0",
     "connect-history-api-fallback": "^1.6.0",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "jimp": "^0.12.0",
