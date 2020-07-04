@@ -16,10 +16,10 @@ app.get('*', function (req, res) {
     res.redirect('/');
 });
 
-app.post('*', cors(), (req, res) => {
-
-
-
+function randomint(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+setpix = (req, name) => {
     Jimp.read(`http://genpix.herokuapp.com/api/render?url=https://quran.com/${req.body.surah}/${req.body.ayah}&output=screenshot&viewport.height=2000&viewport.width=1200`, (err, lenna) => {
         if (err) throw err;
         lenna
@@ -27,22 +27,25 @@ app.post('*', cors(), (req, res) => {
             .quality(100) // set JPEG quality
             .greyscale() // set greyscale
             // .crop( 20, 20, 300, 250 ) 
-            .write('lena-small-bw.jpg', (err) => {
+            .write(`${name}.jpg`, (err) => {
                 console.log(err);
-                // res.sendFile("./lena-small-bw.jpg", (err) => {
-                //     if (err) return res.status(404);
-                console.log(path.join(__dirname, '/lena-small-bw.jpg'));
-                // });
-                res.sendFile(path.join(__dirname, '/lena-small-bw.jpg'));
-
+                // res.sendFile(path.join(__dirname, '/lena-small-bw.jpg'));
             });
-
     });
-    // var tee = fs.createWriteStream("./lena-small-bw.jpg");
-    // console.log(tee);
+}
+app.post('/set', cors(), (req, res) => {
+    var net = randomint(1000, 1020).toString();
+    setTimeout(() => {
+        setpix(req, net)
+    }, 1000);
 
+    res.status(200).json({ name: `${net + ".jpg"}` })
 
+})
 
+app.post('/get', cors(), (req, res) => {
+
+    res.sendFile(path.join(__dirname, req.body.name));
 })
 
 const port = process.env.PORT || 8080;
